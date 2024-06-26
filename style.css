@@ -1,0 +1,20 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+#exit{
+    position: absolute;
+    width: 6vw;
+    top: 92vh;
+    left: 47vw;
+    border-radius: .1vw;
+    box-shadow: 0px 0px 10px #cdebacf8;
+    transition: 0.2s;
+}
+
+#exit:hover {
+    width: 6.2vw;
+    box-shadow: 0px 0px 20px #cdebac;
+    left: 46.9vw;
+}
