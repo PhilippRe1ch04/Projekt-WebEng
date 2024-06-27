@@ -25,6 +25,13 @@ let mixer;
 let action;
 let action2;
 
+camera.position.z = 5;
+camera.position.y = 5;
+camera.rotation.x = -0.3;
+
+const clock = new THREE.Clock();
+
+
 loader.load('public/gentle_stickman.glb', function (gltf) {
     const model = gltf.scene;
     model.rotation.y = Math.PI;
@@ -64,11 +71,18 @@ window.addEventListener('keyup', function(e) {
     }
 });
 
-camera.position.z = 5;
-camera.position.y = 5;
-camera.rotation.x = -0.3;
-
-const clock = new THREE.Clock();
+window.addEventListener('resize', () => {
+    // update display width and height
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    // update camera aspect
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+    // update renderer
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.render(scene, camera);
+});
 
 function animate() {
     if(mixer) {
