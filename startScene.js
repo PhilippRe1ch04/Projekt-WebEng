@@ -36,6 +36,9 @@ loader.load('public/skybox.glb', function (gltf){
     console.error(error);
 });
 
+let mixer;
+let action;
+
 loader.load('public/gentle_stickman.glb', function (gltf){
     gltf.scene.traverse(function (child) {
         if (child.isMesh) {
@@ -46,6 +49,11 @@ loader.load('public/gentle_stickman.glb', function (gltf){
     const model = gltf.scene;
     model.position.set(1, 0, 5);
     scene.add(model);
+
+    mixer = new THREE.AnimationMixer(model);
+    const clips = gltf.animations;
+    action = mixer.clipAction(clips[0]);
+    action.play();
 
 }, undefined, function (error){
     console.error(error);
@@ -69,9 +77,17 @@ loader.load('public/Art_Gallery.glb', function (gltf){
 camera.position.z = 12;
 camera.position.y = 5;
 
+
+const clock = new THREE.Clock();
+
+
 function animate() {
     if(skybox){
         skybox.rotation.y += 0.0001;
+    }
+    if(mixer){
+        const delta = clock.getDelta();
+        mixer.update(delta/1.5);
     }
     
 	renderer.render(scene, camera);

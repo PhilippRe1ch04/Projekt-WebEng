@@ -1,6 +1,25 @@
 body{
     margin: 0;
     padding: 0;
+    overflow: hidden;
+}
+
+#overlay{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+#welcome{
+    position: inherit;
+    top: 2vh;
+    left: 10vw;
+    color: whitesmoke;
+    font-size: 5vh;
+    font-weight: 900;
+    text-shadow: 4px 4px 15px #000;
 }
 
 #exit{
