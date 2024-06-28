@@ -3,44 +3,42 @@ import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {StartScene} from './startScene.js'
 import {HallwayScene} from './hallwayScene.js'
 
+var scenes;
+var activeScene;
 
+var renderer;
 
-//init renderer
-const renderer = new THREE.WebGLRenderer();
-renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
+function initRenderer(){
+    //init renderer
+    renderer = new THREE.WebGLRenderer();
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+}
 
-//init Scenes
-const scene1 = new StartScene();
-const scene2 = new HallwayScene();
-var scenes = [scene1, scene2];
-let activeScene = scene1;
+function initScenes(){
+    //init Scenes
+    const scene1 = new StartScene();
+    const scene2 = new HallwayScene();
+    scenes = [scene1, scene2];
+}
 
-function loadScene(i){
+export function loadScene(i){ //function to switch between scenes
+    if(activeScene) activeScene.exit(); //exit old scene
     activeScene = scenes[i];
-    
-    activeScene.start();
+
+    activeScene.start(); //open new scene
     renderer.setAnimationLoop(() => {
         activeScene.updateRender();
         renderer.render(activeScene.getScene(), activeScene.getCamera());
     });
 }
 
+initRenderer();
+initScenes();
 loadScene(0);
-
-
-document.addEventListener('keydown', function(e){
-    if(e.code === 'Enter'){
-        loadScene(1);
-    }
-
-    if(e.code === 'Escape'){
-        loadScene(0);
-    }
-});
-
+window.loadScene = loadScene;
 
 window.addEventListener('resize', () => {
     let width = window.innerWidth;
@@ -49,9 +47,8 @@ window.addEventListener('resize', () => {
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    scene1.getCamera().aspect = width / height;
-    scene1.getCamera().updateProjectionMatrix();
-
-    scene2.getCamera().aspect = width / height;
-    scene2.getCamera().updateProjectionMatrix();
+    scenes.forEach((scene) => {
+        scene.getCamera().aspect = width / height;
+        scene.getCamera().updateProjectionMatrix();
+    });
 });

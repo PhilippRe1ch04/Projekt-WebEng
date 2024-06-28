@@ -3,7 +3,7 @@ import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 
 export class HallwayScene{
 
-    constructor(){
+    constructor(){ //called once at the beginning
         this._clock = new THREE.Clock();
         this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         this._scene = new THREE.Scene();
@@ -11,12 +11,13 @@ export class HallwayScene{
         this.animationState = 0;
 
         this.initEnv();
-        this.addListeners();
+        
         
     }
 
-    start(){
+    start(){ //called on scene load
         this.loadOverlay();
+        this.addListeners();
     }
 
     updateRender() {
@@ -104,37 +105,51 @@ export class HallwayScene{
     }
 
     addListeners(){
-        window.addEventListener('keydown', (e) => {
-            if(e.code === 'ArrowUp'){
-                if(this.animationState != 1){
-                    this.animationState = 1;
-                    this.anim_running.reset();
-                    this.anim_running.play();
-                    this.anim_idle.crossFadeTo(this.anim_running, 0.5);
-                } 
-                
+        this.boundKeydown = this.keydown.bind(this);
+        this.boundKeyup = this.keyup.bind(this);
+
+        window.addEventListener('keydown', this.boundKeydown);
+        window.addEventListener('keyup', this.boundKeyup);
+    }
+    
+    keydown(e){
+        if(e.code === 'ArrowUp'){
+            if(this.animationState != 1){
+                this.animationState = 1;
+                this.anim_running.reset();
+                this.anim_running.play();
+                this.anim_idle.crossFadeTo(this.anim_running, 0.5);
+            } 
+            
+        }else if(e.code === 'Escape'){
+            loadScene(0);
+        }
+    }
+
+    keyup(e){
+        if(e.code === 'ArrowUp'){
+            if(this.animationState != 0){
+                this.animationState = 0;
+                this.anim_idle.reset();
+                this.anim_idle.play();
+                this.anim_running.crossFadeTo(this.anim_idle, 0.5);
             }
-        });
-        
-        window.addEventListener('keyup', (e) => {
-            if(e.code === 'ArrowUp'){
-                if(this.animationState != 0){
-                    this.animationState = 0;
-                    this.anim_idle.reset();
-                    this.anim_idle.play();
-                    this.anim_running.crossFadeTo(this.anim_idle, 0.5);
-                }
-            }
-        });
+        }
     }
 
     loadOverlay(){
         var overlayDiv = document.getElementById("overlay");
         var exitDiv = document.createElement('div');
         exitDiv.id = 'exitDiv';
-        exitDiv.innerHTML = "<img id='exit' src='src/exit.png' alt='exit'>"
-        overlayDiv.removeChild(document.getElementById("welcome"));
+        exitDiv.innerHTML = "<img id='exit' src='src/exit.png' onclick='loadScene(0);' alt='exit'>"
         overlayDiv.appendChild(exitDiv);
+    }
+
+    exit(){
+        document.removeEventListener('keydown', this.keydown);
+        document.removeEventListener('keyup', this.keyup);
+
+        document.getElementById("overlay").removeChild(document.getElementById("exitDiv"));
     }
 
 }

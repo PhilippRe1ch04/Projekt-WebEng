@@ -9,13 +9,12 @@ export class StartScene {
         this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         this._scene = new THREE.Scene();
 
-        this.initEnv();
-        this.addListeners();
-        
+        this.initEnv();        
     }
 
     start(){
         this.loadOverlay();
+        this.addListeners();
     }
 
     updateRender() {
@@ -106,23 +105,37 @@ export class StartScene {
     }
 
     addListeners(){
-        document.addEventListener('mousemove', function(e){
-            mouseX = (e.clientX - window.innerWidth / 2) *0.02;
-            mouseY = (e.clientY - window.innerHeight / 2) * 0.02;
+        this.boundMousemove = this.mousemove.bind(this);
+        this.boundKeydown = this.keydown.bind(this);
         
-        });
+        document.addEventListener('mousemove', this.boundMousemove);
+        document.addEventListener('keydown', this.boundKeydown);
+    }
+
+    keydown(e){
+        if(e.code === 'Enter'){
+            loadScene(1);
+        }
+    }
+
+    mousemove(e){
+        mouseX = (e.clientX - window.innerWidth / 2) *0.02;
+        mouseY = (e.clientY - window.innerHeight / 2) * 0.02;
     }
 
     loadOverlay(){
         var overlayDiv = document.getElementById("overlay");
         var welcomeSection = document.createElement('div');
-        welcomeSection.id = 'welcome';
+        welcomeSection.id = 'welcomeDiv';
         welcomeSection.innerHTML = '<p>Welcome to the first online Art Gallery <br>Please enter to see the most famous arts. <br>Have fun!</p>';
-        try{
-            overlayDiv.removeChild(document.getElementById("exitDiv"));
-        }catch{
-            
-        }
         overlayDiv.appendChild(welcomeSection);
+        
+    }
+
+    exit(){
+        document.removeEventListener('mousemove', this.mousemove);
+        document.removeEventListener('keydown', this.keydown);
+
+        document.getElementById("overlay").removeChild(document.getElementById("welcomeDiv"));
     }
 }

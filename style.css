@@ -12,7 +12,7 @@ body{
     height: 100vh;
 }
 
-#welcome{
+#welcomeDiv{
     position: inherit;
     top: 2vh;
     left: 10vw;
