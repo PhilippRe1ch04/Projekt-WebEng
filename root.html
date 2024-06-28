@@ -4,7 +4,6 @@
 		<meta charset="utf-8">
 		<title>Art Galery</title>
 		<link rel="stylesheet" href="style.css">
-		<script type="text/javascript" src="changeScene.js" language="JavaScript" defer></script>
         <script type="importmap">
             {
               "imports": {
@@ -15,7 +14,9 @@
           </script>
 	</head>
 	<body>
-		<script type="module" src="startScene.js"></script>
+		<script type="module" src="startScene.js" defer></script>
+		<script type="module" src="sceneManager.js" defer></script>
+		
 		<div id="overlay">
 			<div id="welcome">
 				<p>Welcome to the first online Art Gallery <br>Please enter to see the most famous arts. <br>Have fun!</p>
