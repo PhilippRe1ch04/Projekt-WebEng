@@ -11,6 +11,11 @@ export class StartScene {
 
         this.initEnv();
         this.addListeners();
+        
+    }
+
+    start(){
+        this.loadOverlay();
     }
 
     updateRender() {
@@ -70,15 +75,15 @@ export class StartScene {
     initEnv() {
         this.initLight();
 
-        this.initModel('public/Art_Gallery.glb', (artGallery) => {
+        this.initModel('src/3d/Art_Gallery.glb', (artGallery) => {
             artGallery.rotation.y = Math.PI; //rotate obj
         });
 
-        this.initModel('public/skybox.glb', (skybox) => {
+        this.initModel('src/3d/skybox.glb', (skybox) => {
             this.skybox = skybox;
         });
 
-        this.initModel('public/gentle_stickman.glb', (stickman, animations) => {
+        this.initModel('src/3d/gentle_stickman.glb', (stickman, animations) => {
             this.stickman = stickman;
             this.stickman.position.set(1, 0, 5); //set pos
             
@@ -106,5 +111,18 @@ export class StartScene {
             mouseY = (e.clientY - window.innerHeight / 2) * 0.02;
         
         });
+    }
+
+    loadOverlay(){
+        var overlayDiv = document.getElementById("overlay");
+        var welcomeSection = document.createElement('div');
+        welcomeSection.id = 'welcome';
+        welcomeSection.innerHTML = '<p>Welcome to the first online Art Gallery <br>Please enter to see the most famous arts. <br>Have fun!</p>';
+        try{
+            overlayDiv.removeChild(document.getElementById("exitDiv"));
+        }catch{
+            
+        }
+        overlayDiv.appendChild(welcomeSection);
     }
 }

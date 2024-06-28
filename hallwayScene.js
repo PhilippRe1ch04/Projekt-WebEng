@@ -12,6 +12,11 @@ export class HallwayScene{
 
         this.initEnv();
         this.addListeners();
+        
+    }
+
+    start(){
+        this.loadOverlay();
     }
 
     updateRender() {
@@ -78,7 +83,7 @@ export class HallwayScene{
         ground.receiveShadow = true;
         this._scene.add(ground);
 
-        this.initModel('public/gentle_stickman.glb', (stickman, animations) => {
+        this.initModel('src/3d/gentle_stickman.glb', (stickman, animations) => {
             stickman.rotation.y = Math.PI;
 
             //play anim of stickman
@@ -121,6 +126,15 @@ export class HallwayScene{
                 }
             }
         });
+    }
+
+    loadOverlay(){
+        var overlayDiv = document.getElementById("overlay");
+        var exitDiv = document.createElement('div');
+        exitDiv.id = 'exitDiv';
+        exitDiv.innerHTML = "<img id='exit' src='src/exit.png' alt='exit'>"
+        overlayDiv.removeChild(document.getElementById("welcome"));
+        overlayDiv.appendChild(exitDiv);
     }
 
 }

@@ -15,26 +15,29 @@ document.body.appendChild(renderer.domElement);
 //init Scenes
 const scene1 = new StartScene();
 const scene2 = new HallwayScene();
+var scenes = [scene1, scene2];
+let activeScene = scene1;
 
-renderer.setAnimationLoop(() => {
-    scene1.updateRender();
-    renderer.render(scene1.getScene(), scene1.getCamera());
-});
+function loadScene(i){
+    activeScene = scenes[i];
+    
+    activeScene.start();
+    renderer.setAnimationLoop(() => {
+        activeScene.updateRender();
+        renderer.render(activeScene.getScene(), activeScene.getCamera());
+    });
+}
+
+loadScene(0);
 
 
 document.addEventListener('keydown', function(e){
     if(e.code === 'Enter'){
-        renderer.setAnimationLoop(() => {
-            scene2.updateRender();
-            renderer.render(scene2.getScene(), scene2.getCamera());
-        });
+        loadScene(1);
     }
 
     if(e.code === 'Escape'){
-        renderer.setAnimationLoop(() => {
-            scene1.updateRender();
-            renderer.render(scene1.getScene(), scene1.getCamera());
-        });
+        loadScene(0);
     }
 });
 
