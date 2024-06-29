@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {ArtFrame} from './artFrame.js';
 
 export class HallwayScene{
 
@@ -9,15 +10,18 @@ export class HallwayScene{
         this._scene = new THREE.Scene();
 
         this.animationState = 0;
+        this.dir = 1;
+        this.artFrames = [];
+        this.curr = 0;
 
         this.initEnv();
-        
-        
     }
 
     start(){ //called on scene load
         this.loadOverlay();
         this.addListeners();
+
+
     }
 
     updateRender() {
@@ -25,6 +29,28 @@ export class HallwayScene{
             const delta = this._clock.getDelta();
             this.animmixer.update(delta/1.5);
             
+        }
+
+        if(this.animationState == 1){
+            
+            this.artFrames.forEach((element) =>{
+                element.position.z += 0.1*this.dir;
+            });
+
+            var worldPos = new THREE.Vector3();
+            this.artFrames[this.curr].getWorldPosition(worldPos);
+            if(worldPos.z > -1){
+                //view image in full size
+                this.curr += 1;
+
+                let artFrameX = new ArtFrame("src/klimaleugner.jpg");
+                this._scene.add(artFrameX);
+                var factor = 1;
+                if(this.curr%2) factor = -1;
+                artFrameX.position.set(10*factor, 0, -45);
+                artFrameX.rotation.y = Math.PI/4*-factor;
+                this.artFrames.push(artFrameX);
+            }
         }
         
     }
@@ -85,7 +111,7 @@ export class HallwayScene{
         this._scene.add(ground);
 
         this.initModel('src/3d/gentle_stickman.glb', (stickman, animations) => {
-            stickman.rotation.y = Math.PI;
+            this.stickman = stickman;
 
             //play anim of stickman
             this.animmixer = new THREE.AnimationMixer(stickman);
@@ -94,6 +120,23 @@ export class HallwayScene{
             this.anim_idle.play();
         });
 
+        let artFrame = new ArtFrame("src/monalisa.jpg");
+        this._scene.add(artFrame);
+        artFrame.position.set(10, 0, -15);
+        artFrame.rotation.y = -Math.PI/4;
+        this.artFrames.push(artFrame);
+
+        let artFrame2 = new ArtFrame("src/sbahn.png");
+        this._scene.add(artFrame2);
+        artFrame2.position.set(-10, 0, -30);
+        artFrame2.rotation.y = Math.PI/4;
+        this.artFrames.push(artFrame2);
+
+        let artFrame3 = new ArtFrame("src/heulsuse.png");
+        this._scene.add(artFrame3);
+        artFrame3.position.set(10, 0, -45);
+        artFrame3.rotation.y = -Math.PI/4;
+        this.artFrames.push(artFrame3);
     }
 
     getScene() {
@@ -119,15 +162,26 @@ export class HallwayScene{
                 this.anim_running.reset();
                 this.anim_running.play();
                 this.anim_idle.crossFadeTo(this.anim_running, 0.5);
+                this.stickman.rotation.y = Math.PI;
+                this.dir = 1;
             } 
             
+        }else if(e.code === 'ArrowDown'){
+            if(this.animationState != 1){
+                this.animationState = 1;
+                this.anim_running.reset();
+                this.anim_running.play();
+                this.anim_idle.crossFadeTo(this.anim_running, 0.5);
+                this.stickman.rotation.y = 0;
+                this.dir = -1;
+            }            
         }else if(e.code === 'Escape'){
             loadScene(0);
         }
     }
 
     keyup(e){
-        if(e.code === 'ArrowUp'){
+        if(e.code === 'ArrowUp' || e.code === 'ArrowDown'){
             if(this.animationState != 0){
                 this.animationState = 0;
                 this.anim_idle.reset();
