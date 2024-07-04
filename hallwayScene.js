@@ -45,10 +45,10 @@ export class HallwayScene{
 
                 let artFrameX = new ArtFrame("src/klimaleugner.jpg");
                 this._scene.add(artFrameX);
-                var factor = 1;
-                if(this.curr%2) factor = -1;
-                artFrameX.position.set(10*factor, 0, -45);
-                artFrameX.rotation.y = Math.PI/4*-factor;
+                var pos = 1;
+                if(this.curr%2) pos = -1;
+                artFrameX.position.set(10*pos, 0, -45);
+                artFrameX.rotation.y = Math.PI/4*-pos;
                 this.artFrames.push(artFrameX);
             }
         }
@@ -56,10 +56,10 @@ export class HallwayScene{
     }
 
     initLight(){
-        const amlight = new THREE.AmbientLight(0x404040, 80); // soft white light
+        const amlight = new THREE.AmbientLight(0x404040, 30); // soft white light
         this._scene.add(amlight);
 
-        const light = new THREE.DirectionalLight(0x404040, 80); // soft white light
+        const light = new THREE.DirectionalLight(0x404040, 50); // soft white light
         light.position.set(5,5,0);
         light.castShadow = true;
         this._scene.add(light);
@@ -109,6 +109,8 @@ export class HallwayScene{
         ground.position.y = -0.02;
         ground.receiveShadow = true;
         this._scene.add(ground);
+
+        this._scene.fog = new THREE.Fog( 0x040404, 10, 50 );
 
         this.initModel('src/3d/gentle_stickman.glb', (stickman, animations) => {
             this.stickman = stickman;
