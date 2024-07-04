@@ -3,9 +3,8 @@ import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 
 export class ArtFrame{
 
-    constructor(path, vector){
+    constructor(path){
         this.path = path;
-        this.position = vector;
 
         let group = new THREE.Group();
 
@@ -14,11 +13,11 @@ export class ArtFrame{
         new THREE.TextureLoader().load(path, function(artImage){
             
             planeWidth = planeHeight * (artImage.image.width/ artImage.image.height);
-            let plane = new THREE.Mesh(new THREE.PlaneGeometry(planeWidth, planeHeight), new THREE.MeshBasicMaterial({map: artImage}));
+            let plane = new THREE.Mesh(new THREE.PlaneGeometry(planeWidth, planeHeight), new THREE.MeshBasicMaterial({map: artImage}));    
             plane.position.set(0, 4, 0);
-
-            group.add(plane);
+            group.add(plane)
         }); 
+
         
     
         this.initModel("src/3d/pillar.glb", (pillar1) => {
@@ -40,9 +39,7 @@ export class ArtFrame{
             pillar2.position.set((planeWidth/2)+0.4, 0, 0);
             pillar2.scale.set(1.5, 1.3, 1.5);
             group.add(pillar2);
-        });
-        
-        
+        });    
 
         return group;
     }

@@ -8,6 +8,22 @@ var activeScene;
 
 var renderer;
 
+export function login(){
+    alert('login');
+}
+
+
+export function loadScene(i){ //function to switch between scenes
+    if(activeScene) activeScene.exit(); //exit old scene
+    activeScene = scenes[i];
+
+    activeScene.start(); //open new scene
+    renderer.setAnimationLoop(() => {
+        activeScene.updateRender();
+        renderer.render(activeScene.getScene(), activeScene.getCamera());
+    });
+}
+
 function initRenderer(){
     //init renderer
     renderer = new THREE.WebGLRenderer();
@@ -24,21 +40,11 @@ function initScenes(){
     scenes = [scene1, scene2];
 }
 
-export function loadScene(i){ //function to switch between scenes
-    if(activeScene) activeScene.exit(); //exit old scene
-    activeScene = scenes[i];
-
-    activeScene.start(); //open new scene
-    renderer.setAnimationLoop(() => {
-        activeScene.updateRender();
-        renderer.render(activeScene.getScene(), activeScene.getCamera());
-    });
-}
-
 initRenderer();
 initScenes();
 loadScene(0);
 window.loadScene = loadScene;
+window.login = login;
 
 window.addEventListener('resize', () => {
     let width = window.innerWidth;
