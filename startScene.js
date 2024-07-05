@@ -129,11 +129,6 @@ export class StartScene {
         welcomeSection.id = 'welcomeDiv';
         welcomeSection.innerHTML = '<p>Welcome to the first online Art Gallery <br>Please enter to see the most famous arts. <br>Have fun!</p>';
         overlayDiv.appendChild(welcomeSection);
-
-        var userImgDiv = document.createElement('div');
-        userImgDiv.id = 'userImgDiv';
-        userImgDiv.innerHTML = "<img id='userImg' src='src/user.png' onclick='login();' alt='login'>"
-        overlayDiv.appendChild(userImgDiv);
     }
 
     exit(){
