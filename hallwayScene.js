@@ -13,6 +13,8 @@ export class HallwayScene{
         this.dir = 1;
         this.artFrames = [];
         this.curr = 0;
+        this.lastTimeRunning = 0;
+        this.showArrowKeys = 0;
 
         this.initEnv();
     }
@@ -52,6 +54,15 @@ export class HallwayScene{
                 this.artFrames.push(artFrameX);
             }
         }
+
+        if(this._clock.elapsedTime > this.lastTimeRunning + 5){
+            if(this.showArrowKeys == 0){
+                this.showArrowKeys = 1;
+                this._scene.add(this.arrowKeys);
+            }
+            const delta = this._clock.getDelta();
+            this.animmixer_key.update(delta * 80);
+        }
         
     }
 
@@ -79,7 +90,6 @@ export class HallwayScene{
             });
 
             const model = gltf.scene;
-            this._scene.add(model);
             onLoadCallback(model, gltf.animations); //return model and animations
         }, undefined, (error) => {
             console.error(error);
@@ -120,6 +130,19 @@ export class HallwayScene{
             this.anim_idle = this.animmixer.clipAction(animations[0]);
             this.anim_running = this.animmixer.clipAction(animations[1]);
             this.anim_idle.play();
+            this._scene.add(this.stickman);
+        });
+
+        this.initModel('src/3d/keyboard_arrows.glb', (arrowKeys, animations) => {
+            this.arrowKeys = arrowKeys;
+            this.arrowKeys.position.set(3, 0, -1);
+
+            this.animmixer_key = new THREE.AnimationMixer(arrowKeys);
+            
+            animations.forEach((clip) => {
+                const action = this.animmixer_key.clipAction(clip);
+                action.play();
+            });
         });
 
         let artFrame = new ArtFrame("src/monalisa.jpg");
@@ -160,6 +183,11 @@ export class HallwayScene{
     keydown(e){
         if(e.code === 'ArrowUp'){
             if(this.animationState != 1){
+                if(this.showArrowKeys == 1){
+                    this.showArrowKeys = 0;    
+                    this.lastTimeRunning = this._clock.elapsedTime;
+                    this._scene.remove(this.arrowKeys);
+                }
                 this.animationState = 1;
                 this.anim_running.reset();
                 this.anim_running.play();
@@ -185,6 +213,11 @@ export class HallwayScene{
     keyup(e){
         if(e.code === 'ArrowUp' || e.code === 'ArrowDown'){
             if(this.animationState != 0){
+                if(this.showArrowKeys == 1){
+                    this.showArrowKeys = 0;    
+                    this.lastTimeRunning = this._clock.elapsedTime;
+                    this._scene.remove(this.arrowKeys);
+                }
                 this.animationState = 0;
                 this.anim_idle.reset();
                 this.anim_idle.play();

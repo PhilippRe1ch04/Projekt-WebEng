@@ -9,7 +9,9 @@ export class StartScene {
         this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         this._scene = new THREE.Scene();
 
-        this.initEnv();        
+        this.initEnv();
+
+        this._clock.start();
     }
 
     start(){
@@ -21,9 +23,15 @@ export class StartScene {
         if (this.skybox) { //rotate sky
             this.skybox.rotation.y += 0.0001;
         }
-        if (this.animmixer) { //play stickman idle animation
+        if (this.animmixer_pl) { //play stickman idle animation
             const delta = this._clock.getDelta();
-            this.animmixer.update(delta / 1.5);
+            this.animmixer_pl.update(delta / 1.5);
+        }
+
+        if(this._clock.elapsedTime > 5){
+            this._scene.add(this.enterKey);
+            const delta = this._clock.getDelta();
+            this.animmixer_key.update(delta * 80);
         }
 
         
@@ -64,7 +72,6 @@ export class StartScene {
             });
 
             const model = gltf.scene;
-            this._scene.add(model);
             onLoadCallback(model, gltf.animations); //return model and animations
         }, undefined, (error) => {
             console.error(error);
@@ -76,10 +83,12 @@ export class StartScene {
 
         this.initModel('src/3d/Art_Gallery.glb', (artGallery) => {
             artGallery.rotation.y = Math.PI; //rotate obj
+            this._scene.add(artGallery);
         });
 
         this.initModel('src/3d/skybox.glb', (skybox) => {
             this.skybox = skybox;
+            this._scene.add(this.skybox);
         });
 
         this.initModel('src/3d/gentle_stickman.glb', (stickman, animations) => {
@@ -88,9 +97,22 @@ export class StartScene {
             
 
             //play idle anim of stickman
-            this.animmixer = new THREE.AnimationMixer(stickman);
-            const action = this.animmixer.clipAction(animations[0]);
+            this.animmixer_pl = new THREE.AnimationMixer(stickman);
+            const action = this.animmixer_pl.clipAction(animations[0]);
             action.play();
+            this._scene.add(this.stickman);
+        });
+
+        this.initModel('src/3d/keyboard_enter.glb', (enterKey, animations) => {
+            this.enterKey = enterKey;
+            this.enterKey.position.set(-0.5, 0, 6);
+
+            this.animmixer_key = new THREE.AnimationMixer(enterKey);
+            
+            animations.forEach((clip) => {
+                const action = this.animmixer_key.clipAction(clip);
+                action.play();
+            });
         });
 
         this._camera.position.set(0, 5, 14);
