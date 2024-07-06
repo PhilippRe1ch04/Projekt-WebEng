@@ -17,6 +17,8 @@ export class StartScene {
     start(){
         this.loadOverlay();
         this.addListeners();
+
+        this._clock.elapsedTime = 0;
     }
 
     updateRender() {

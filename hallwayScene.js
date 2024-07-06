@@ -15,6 +15,7 @@ export class HallwayScene{
         this.curr = 0;
         this.lastTimeRunning = 0;
         this.showArrowKeys = 0;
+        this.showEnterKey = 0;
 
         this.initEnv();
     }
@@ -23,25 +24,27 @@ export class HallwayScene{
         this.loadOverlay();
         this.addListeners();
 
-
+        this._clock.elapsedTime = 0;
     }
 
     updateRender() {
+        var worldPos = new THREE.Vector3();
+        this.artFrames[this.curr].getWorldPosition(worldPos);
+        const delta = this._clock.getDelta();
+
         if(this.animmixer) { //update animation if stickman
-            const delta = this._clock.getDelta();
+            
             this.animmixer.update(delta/1.5);
             
         }
 
-        if(this.animationState == 1){
+        if(this.animationState == 1){ //if running
             
             this.artFrames.forEach((element) =>{
                 element.position.z += 0.1*this.dir;
             });
 
-            var worldPos = new THREE.Vector3();
-            this.artFrames[this.curr].getWorldPosition(worldPos);
-            if(worldPos.z > -1){
+            if(worldPos.z > 0){
                 //view image in full size
                 this.curr += 1;
 
@@ -52,6 +55,29 @@ export class HallwayScene{
                 artFrameX.position.set(10*pos, 0, -45);
                 artFrameX.rotation.y = Math.PI/4*-pos;
                 this.artFrames.push(artFrameX);
+            }else if (worldPos.z < -15.5){
+                if(this.curr != 0){
+                    this.curr -= 1;
+                }
+            }
+        }
+
+        if(worldPos.z > -8 && worldPos.z < 0){        
+            this.animmixer_enterkey.update(delta);
+
+            if(this.showEnterKey == 0){
+                if(this.artFrames.at(this.curr).position.x < 0){
+                    this.enterKey.position.x = -5;
+                }else{
+                    this.enterKey.position.x = 5;
+                }
+                this._scene.add(this.enterKey);
+                this.showEnterKey = 1;
+            }
+        }else{
+            if(this.showEnterKey == 1){
+                this._scene.remove(this.enterKey);
+                this.showEnterKey = 0;
             }
         }
 
@@ -60,20 +86,30 @@ export class HallwayScene{
                 this.showArrowKeys = 1;
                 this._scene.add(this.arrowKeys);
             }
-            const delta = this._clock.getDelta();
-            this.animmixer_key.update(delta * 80);
+            this.animmixer_key.update(delta/2);
         }
         
     }
 
     initLight(){
-        const amlight = new THREE.AmbientLight(0x404040, 30); // soft white light
+        const amlight = new THREE.AmbientLight(0x404040, 40); // soft white light
         this._scene.add(amlight);
 
-        const light = new THREE.DirectionalLight(0x404040, 50); // soft white light
-        light.position.set(5,5,0);
-        light.castShadow = true;
-        this._scene.add(light);
+        const dirlight = new THREE.DirectionalLight(0x404040, 40); // soft white light
+        dirlight.position.set(20, 20, 5);
+        dirlight.castShadow = true;
+        this._scene.add(dirlight);
+
+        //Set up shadow properties for the light
+        dirlight.shadow.mapSize.width = 4096;
+        dirlight.shadow.mapSize.height = 4096;
+
+        dirlight.shadow.bias = -0.001; //remove noice
+        //camera render settings for shadow
+        dirlight.shadow.camera.left = 30;
+        dirlight.shadow.camera.right = -30;
+        dirlight.shadow.camera.top = 30;
+        dirlight.shadow.camera.bottom = -30;
 
     }
 
@@ -102,25 +138,31 @@ export class HallwayScene{
         this._camera.position.set(0, 5, 5);
         this._camera.rotation.x = -0.3;
 
-        const way = new THREE.Mesh(new THREE.PlaneGeometry(3.5, 1000, 1, 1), new THREE.MeshStandardMaterial({color: 0x36454F}));
-        way.rotation.x = -Math.PI/2;
-        way.position.y = -0.01;
-        way.receiveShadow = true;
-        this._scene.add(way);
+        this._scene.background = new THREE.Color(0xe88504);
 
-        const carpet = new THREE.Mesh(new THREE.PlaneGeometry(3, 1000, 32, 32), new THREE.MeshStandardMaterial({color: 0x8b0000}));
+        const carpet = new THREE.Mesh(new THREE.PlaneGeometry(3, 1000, 32, 32), new THREE.MeshStandardMaterial({color: 0xffffff}));
         carpet.rotation.x = -Math.PI/2;
         carpet.position.y = 0;
         carpet.receiveShadow = true;
         this._scene.add(carpet);
 
-        const ground = new THREE.Mesh(new THREE.PlaneGeometry(100, 100, 32, 32), new THREE.MeshStandardMaterial({color: 0x010101}));
+        const line = new THREE.Mesh(new THREE.PlaneGeometry(.2, 1000, 32, 32), new THREE.MeshStandardMaterial({color: 0x000000}));
+        line.rotation.x = -Math.PI/2;
+        line.position.x = -20;
+        //this._scene.add(line);
+
+        const line2 = new THREE.Mesh(new THREE.PlaneGeometry(.2, 1000, 32, 32), new THREE.MeshStandardMaterial({color: 0x000000}));
+        line2.rotation.x = -Math.PI/2;
+        line2.position.x = 20;
+        //this._scene.add(line2);
+
+        const ground = new THREE.Mesh(new THREE.PlaneGeometry(40, 100, 32, 32), new THREE.MeshStandardMaterial({color: 0xe88504}));
         ground.rotation.x = -Math.PI/2;
         ground.position.y = -0.02;
         ground.receiveShadow = true;
         this._scene.add(ground);
 
-        this._scene.fog = new THREE.Fog( 0x040404, 10, 50 );
+        //this._scene.fog = new THREE.Fog( 0xe88504, 10, 50 );
 
         this.initModel('src/3d/gentle_stickman.glb', (stickman, animations) => {
             this.stickman = stickman;
@@ -145,10 +187,24 @@ export class HallwayScene{
             });
         });
 
+        this.initModel('src/3d/keyboard_enter.glb', (enterKey, animations) => {
+            this.enterKey = enterKey;
+            this.enterKey.position.set(5, 0, -1);
+
+            this.animmixer_enterkey = new THREE.AnimationMixer(this.enterKey);
+            animations.forEach((clip) => {
+                const action = this.animmixer_enterkey.clipAction(clip);
+                action.play();
+            });
+        });
+
+
         let artFrame = new ArtFrame("src/monalisa.jpg");
         this._scene.add(artFrame);
         artFrame.position.set(10, 0, -15);
         artFrame.rotation.y = -Math.PI/4;
+        artFrame.castShadow = true;
+        artFrame.receiveShadow = true;
         this.artFrames.push(artFrame);
 
         let artFrame2 = new ArtFrame("src/sbahn.png");
@@ -183,11 +239,8 @@ export class HallwayScene{
     keydown(e){
         if(e.code === 'ArrowUp'){
             if(this.animationState != 1){
-                if(this.showArrowKeys == 1){
-                    this.showArrowKeys = 0;    
-                    this.lastTimeRunning = this._clock.elapsedTime;
-                    this._scene.remove(this.arrowKeys);
-                }
+                this._scene.remove(this.arrowKeys);
+                this.showArrowKeys = 1;
                 this.animationState = 1;
                 this.anim_running.reset();
                 this.anim_running.play();
@@ -198,6 +251,8 @@ export class HallwayScene{
             
         }else if(e.code === 'ArrowDown'){
             if(this.animationState != 1){
+                this._scene.remove(this.arrowKeys);
+                this.showArrowKeys = 1;
                 this.animationState = 1;
                 this.anim_running.reset();
                 this.anim_running.play();
@@ -213,11 +268,8 @@ export class HallwayScene{
     keyup(e){
         if(e.code === 'ArrowUp' || e.code === 'ArrowDown'){
             if(this.animationState != 0){
-                if(this.showArrowKeys == 1){
-                    this.showArrowKeys = 0;    
-                    this.lastTimeRunning = this._clock.elapsedTime;
-                    this._scene.remove(this.arrowKeys);
-                }
+                this.lastTimeRunning = this._clock.elapsedTime;
+                this.showArrowKeys = 0;    
                 this.animationState = 0;
                 this.anim_idle.reset();
                 this.anim_idle.play();
