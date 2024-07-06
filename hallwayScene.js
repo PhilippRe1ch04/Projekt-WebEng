@@ -16,6 +16,7 @@ export class HallwayScene{
         this.lastTimeRunning = 0;
         this.showArrowKeys = 0;
         this.showEnterKey = 0;
+        this.nextToImg = false;
 
         this.initEnv();
     }
@@ -33,18 +34,16 @@ export class HallwayScene{
         const delta = this._clock.getDelta();
 
         if(this.animmixer) { //update animation if stickman
-            
             this.animmixer.update(delta/1.5);
-            
         }
 
         if(this.animationState == 1){ //if running
             
-            this.artFrames.forEach((element) =>{
+            this.artFrames.forEach((element) =>{ //move all artFrames towards stickman (movement)
                 element.position.z += 0.1*this.dir;
             });
 
-            if(worldPos.z > 0){
+            if(worldPos.z > 0){ //if artFrame next to stickman, spawn a new one
                 //view image in full size
                 this.curr += 1;
 
@@ -62,9 +61,9 @@ export class HallwayScene{
             }
         }
 
-        if(worldPos.z > -8 && worldPos.z < 0){        
+        if(worldPos.z > -8 && worldPos.z < 0){ //show enter button if artFrame is next to stickman   
             this.animmixer_enterkey.update(delta);
-
+            this.nextToImg = true;
             if(this.showEnterKey == 0){
                 if(this.artFrames.at(this.curr).position.x < 0){
                     this.enterKey.position.x = -5;
@@ -75,13 +74,14 @@ export class HallwayScene{
                 this.showEnterKey = 1;
             }
         }else{
+            this.nextToImg = false;
             if(this.showEnterKey == 1){
                 this._scene.remove(this.enterKey);
                 this.showEnterKey = 0;
             }
         }
 
-        if(this._clock.elapsedTime > this.lastTimeRunning + 5){
+        if(this._clock.elapsedTime > this.lastTimeRunning + 5){ //show arrow keys if no movement
             if(this.showArrowKeys == 0){
                 this.showArrowKeys = 1;
                 this._scene.add(this.arrowKeys);
@@ -235,6 +235,12 @@ export class HallwayScene{
         window.addEventListener('keydown', this.boundKeydown);
         window.addEventListener('keyup', this.boundKeyup);
     }
+
+    removeEventListeners(){
+        console.log("remove Events");
+        window.removeEventListener('keydown', this.boundKeydown);
+        window.removeEventListener('keyup', this.boundKeyup);
+    }
     
     keydown(e){
         if(e.code === 'ArrowUp'){
@@ -262,6 +268,11 @@ export class HallwayScene{
             }            
         }else if(e.code === 'Escape'){
             loadScene(0);
+        }else if(e.code === 'Enter'){
+            if(this.nextToImg == true){
+                document.getElementById('content').style.visibility = "visible";
+                this.removeEventListeners();
+            }
         }
     }
 
@@ -287,9 +298,7 @@ export class HallwayScene{
     }
 
     exit(){
-        document.removeEventListener('keydown', this.keydown);
-        document.removeEventListener('keyup', this.keyup);
-
+        this.removeEventListeners();
         document.getElementById("overlay").removeChild(document.getElementById("exitDiv"));
     }
 

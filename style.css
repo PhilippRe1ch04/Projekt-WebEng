@@ -146,3 +146,63 @@ div.signin{
     text-shadow: 4px 4px 15px #000;
     font-family: 'Courier New', Courier, monospace;
 }
+
+/*content popup*/
+#content{
+    position: absolute;
+    top: 10vh;
+    left: 5vh;
+    height: 80vh;
+    width: 90vw;
+    visibility: hidden;
+    z-index: 1;
+    background-color: #f1f1f1;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.2);
+    background-color: #ff5959;
+    display: flex;
+}
+
+#content div{
+    border-radius: 5px;
+    margin: 1%;
+}
+
+#content img{
+    max-height: 80%;
+}
+
+#comments{
+    background-color: #ff8e32;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.2);
+    width: 90%;
+}
+
+.buttons{
+    background-color: #ff8e32;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.2);
+    height: auto;
+}
+.close-button{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+.like-button{
+    background-color: #ff8e32;
+    margin: 5px, 5px, 5px, 5px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.2);
+    height: auto;
+}
+.like-counter{
+    background-color: #ff8e32;
+    margin: 5px, 5px, 5px, 5px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.2);
+    height: auto;
+}

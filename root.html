@@ -4,6 +4,7 @@
 		<meta charset="utf-8">
 		<title>Art Galery</title>
 		<link rel="stylesheet" href="style.css">
+		<script type="text/javascript" src="content.js" defer></script>
         <script type="importmap">
             {
               "imports": {
@@ -61,6 +62,36 @@
 					</form>
 				</div>
 			</div>
+			<div id="content">
+				<button class="close-button" onclick='closeContent()'>X</button>
+				<div id="image-holder">
+					<img src="src/placeholder.png" alt="image">
+					<br>
+					<br>
+					<button class="buttons">Like</button>
+					<button class="buttons">Comment</button>
+					<p>Artist: Artist</p>
+					<p>Date: Date</p>
+				</div>
+				<div id="comments">
+					<div class="comment">
+						<p>Comment 1</p>
+						<button class="like-button">Like</button>
+						<span class="like-counter">0</span>
+					</div>
+	
+					<div class="comment">
+						<p>Comment 2</p>
+						<button class="like-button">Like</button>
+						<span class="like-counter">0</span>
+					</div>
+	
+					<div class="comment">
+						<p>Comment 3</p>
+						<button class="like-button">Like</button>
+						<span class="like-counter">0</span>
+					</div>
+				</div>
 		</div>
 		<footer>
 			<p>&copy Art Galery</p>
