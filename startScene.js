@@ -156,8 +156,8 @@ export class StartScene {
     }
 
     exit(){
-        document.removeEventListener('mousemove', this.mousemove);
-        document.removeEventListener('keydown', this.keydown);
+        document.removeEventListener('mousemove', this.boundMousemove);
+        document.removeEventListener('keydown', this.boundKeydown);
 
         document.getElementById("overlay").removeChild(document.getElementById("welcomeDiv"));
     }

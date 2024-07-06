@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {ArtFrame} from './artFrame.js';
+import { viewContent } from './sceneManager.js';
 
 export class HallwayScene{
 
@@ -232,14 +233,13 @@ export class HallwayScene{
         this.boundKeydown = this.keydown.bind(this);
         this.boundKeyup = this.keyup.bind(this);
 
-        window.addEventListener('keydown', this.boundKeydown);
-        window.addEventListener('keyup', this.boundKeyup);
+        document.addEventListener('keydown', this.boundKeydown);
+        document.addEventListener('keyup', this.boundKeyup);
     }
 
     removeEventListeners(){
-        console.log("remove Events");
-        window.removeEventListener('keydown', this.boundKeydown);
-        window.removeEventListener('keyup', this.boundKeyup);
+        document.removeEventListener('keydown', this.boundKeydown);
+        document.removeEventListener('keyup', this.boundKeyup);
     }
     
     keydown(e){
@@ -270,7 +270,7 @@ export class HallwayScene{
             loadScene(0);
         }else if(e.code === 'Enter'){
             if(this.nextToImg == true){
-                document.getElementById('content').style.visibility = "visible";
+                viewContent();
                 this.removeEventListeners();
             }
         }

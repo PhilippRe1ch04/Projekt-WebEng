@@ -13,6 +13,15 @@ export function login(){
     loginDiv.style.visibility = 'visible';
 }
 
+export function viewContent(){
+    document.getElementById('content').style.visibility = "visible";
+}
+
+export function closeContent(){
+    document.getElementById('content').style.visibility = 'hidden';
+    activeScene.addListeners();
+}
+
 
 export function loadScene(i){ //function to switch between scenes
     if(activeScene) activeScene.exit(); //exit old scene
@@ -46,6 +55,7 @@ initScenes();
 loadScene(0);
 window.loadScene = loadScene;
 window.login = login;
+window.closeContent = closeContent;
 
 window.addEventListener('resize', () => {
     let width = window.innerWidth;
@@ -59,3 +69,7 @@ window.addEventListener('resize', () => {
         scene.getCamera().updateProjectionMatrix();
     });
 });
+
+export function getActiveScene(){
+    return activeScene;
+}
