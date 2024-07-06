@@ -9,7 +9,8 @@ var activeScene;
 var renderer;
 
 export function login(){
-    alert('login');
+    let loginDiv = document.getElementById("login");
+    loginDiv.style.visibility = 'visible';
 }
 
 

@@ -27,6 +27,40 @@
 			</div>
 		</nav>
 		<div id="overlay">
+			<div id="login">
+				<div class="signup">
+					<br>
+					<div>Sign Up</div>
+					<form class="loginform" action="signup.php" method="post">
+						<label for="username">
+							<i class="fas fa-user"></i>
+						</label>
+						<input type="text" name="username" placeholder="Username" id="username" required>
+						<label for="password">
+							<i class="fas fa-lock"></i>
+						</label>
+						<input type="password" name="password" placeholder="Password" id="password" required>
+						<br>
+						<input type="submit" value="Sign Up">
+					</form>
+				</div>
+				<div class="signin">
+					<br>
+					<div>Sign In</div>
+					<form class="loginform" action="signin.php" method="post">
+						<label for="username">
+							<i class="fas fa-user"></i>
+						</label>
+						<input type="text" name="username" placeholder="Username" id="username" required>
+						<label for="password">
+							<i class="fas fa-lock"></i>
+						</label>
+						<input type="password" name="password" placeholder="Password" id="password" required>
+						<br>
+						<input type="submit" value="Sign In">
+					</form>
+				</div>
+			</div>
 		</div>
 		<footer>
 			<p>&copy Art Galery</p>
