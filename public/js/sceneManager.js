@@ -7,9 +7,14 @@ var activeScene;
 
 var renderer;
 
-export function login(){
-    let loginDiv = document.getElementById("login");
+export function viewLogin(){
+    let loginDiv = document.getElementById("loginPopUp");
     loginDiv.style.visibility = 'visible';
+}
+
+export function closeLogin(){
+    let loginDiv = document.getElementById("loginPopUp");
+    loginDiv.style.visibility = 'hidden';
 }
 
 export function viewContent(){
@@ -64,7 +69,8 @@ initRenderer();
 initScenes();
 loadScene(0);
 window.loadScene = loadScene;
-window.login = login;
+window.viewLogin = viewLogin;
+window.closeLogin = closeLogin;
 window.closeContent = closeContent;
 
 window.addEventListener('resize', () => {
