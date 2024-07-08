@@ -22,18 +22,18 @@ export class StartScene {
     }
 
     updateRender() {
+        const delta = this._clock.getDelta();
+
         if (this.skybox) { //rotate sky
             this.skybox.rotation.y += 0.0001;
         }
         if (this.animmixer_pl) { //play stickman idle animation
-            const delta = this._clock.getDelta();
             this.animmixer_pl.update(delta / 1.5);
         }
 
         if(this._clock.elapsedTime > 5){
             this._scene.add(this.enterKey);
-            const delta = this._clock.getDelta();
-            this.animmixer_key.update(delta * 80);
+            this.animmixer_key.update(delta/1.5);
         }
 
         
@@ -137,7 +137,9 @@ export class StartScene {
     }
 
     keydown(e){
+        
         if(e.code === 'Enter'){
+            console.log("load scene");
             loadScene(1);
         }
     }

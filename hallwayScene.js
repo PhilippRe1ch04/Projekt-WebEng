@@ -1,7 +1,14 @@
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {ArtFrame} from './artFrame.js';
-import { viewContent } from './sceneManager.js';
+import { getActiveScene, viewContent } from './sceneManager.js';
+
+/*
+##Todo##
+-walking backwads --> load startScene
+
+*/
+
 
 export class HallwayScene{
 
@@ -63,7 +70,7 @@ export class HallwayScene{
         }
 
         if(worldPos.z > -8 && worldPos.z < 0){ //show enter button if artFrame is next to stickman   
-            this.animmixer_enterkey.update(delta);
+            this.animmixer_enterkey.update(delta/1.5);
             this.nextToImg = true;
             if(this.showEnterKey == 0){
                 if(this.artFrames.at(this.curr).position.x < 0){
@@ -74,6 +81,8 @@ export class HallwayScene{
                 this._scene.add(this.enterKey);
                 this.showEnterKey = 1;
             }
+        }else if(worldPos.z < -20){
+            loadScene(0);
         }else{
             this.nextToImg = false;
             if(this.showEnterKey == 1){
@@ -87,7 +96,7 @@ export class HallwayScene{
                 this.showArrowKeys = 1;
                 this._scene.add(this.arrowKeys);
             }
-            this.animmixer_key.update(delta/2);
+            this.animmixer_key.update(delta/2.2);
         }
         
     }
@@ -133,6 +142,28 @@ export class HallwayScene{
         });
     }
 
+    loadArtFrames(){
+        let artFrame = new ArtFrame("src/monalisa.jpg");
+        this._scene.add(artFrame);
+        artFrame.position.set(10, 0, -15);
+        artFrame.rotation.y = -Math.PI/4;
+        artFrame.castShadow = true;
+        artFrame.receiveShadow = true;
+        this.artFrames.push(artFrame);
+
+        let artFrame2 = new ArtFrame("src/sbahn.png");
+        this._scene.add(artFrame2);
+        artFrame2.position.set(-10, 0, -30);
+        artFrame2.rotation.y = Math.PI/4;
+        this.artFrames.push(artFrame2);
+
+        let artFrame3 = new ArtFrame("src/heulsuse.png");
+        this._scene.add(artFrame3);
+        artFrame3.position.set(10, 0, -45);
+        artFrame3.rotation.y = -Math.PI/4;
+        this.artFrames.push(artFrame3);
+    }
+
 
     initEnv(){
         this.initLight();
@@ -163,7 +194,7 @@ export class HallwayScene{
         ground.receiveShadow = true;
         this._scene.add(ground);
 
-        //this._scene.fog = new THREE.Fog( 0xe88504, 10, 50 );
+        this._scene.fog = new THREE.Fog( 0xe88504, 10, 50 );
 
         this.initModel('src/3d/gentle_stickman.glb', (stickman, animations) => {
             this.stickman = stickman;
@@ -199,26 +230,7 @@ export class HallwayScene{
             });
         });
 
-
-        let artFrame = new ArtFrame("src/monalisa.jpg");
-        this._scene.add(artFrame);
-        artFrame.position.set(10, 0, -15);
-        artFrame.rotation.y = -Math.PI/4;
-        artFrame.castShadow = true;
-        artFrame.receiveShadow = true;
-        this.artFrames.push(artFrame);
-
-        let artFrame2 = new ArtFrame("src/sbahn.png");
-        this._scene.add(artFrame2);
-        artFrame2.position.set(-10, 0, -30);
-        artFrame2.rotation.y = Math.PI/4;
-        this.artFrames.push(artFrame2);
-
-        let artFrame3 = new ArtFrame("src/heulsuse.png");
-        this._scene.add(artFrame3);
-        artFrame3.position.set(10, 0, -45);
-        artFrame3.rotation.y = -Math.PI/4;
-        this.artFrames.push(artFrame3);
+        this.loadArtFrames();
     }
 
     getScene() {
@@ -237,7 +249,7 @@ export class HallwayScene{
         document.addEventListener('keyup', this.boundKeyup);
     }
 
-    removeEventListeners(){
+    removeListeners(){
         document.removeEventListener('keydown', this.boundKeydown);
         document.removeEventListener('keyup', this.boundKeyup);
     }
@@ -271,7 +283,7 @@ export class HallwayScene{
         }else if(e.code === 'Enter'){
             if(this.nextToImg == true){
                 viewContent();
-                this.removeEventListeners();
+                this.removeListeners();
             }
         }
     }
@@ -298,7 +310,7 @@ export class HallwayScene{
     }
 
     exit(){
-        this.removeEventListeners();
+        this.removeListeners();
         document.getElementById("overlay").removeChild(document.getElementById("exitDiv"));
     }
 

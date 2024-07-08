@@ -24,10 +24,21 @@ export function closeContent(){
 
 
 export function loadScene(i){ //function to switch between scenes
+    if(activeScene == scenes[0]){
+        console.log("active scene: start");
+    }else if (activeScene == scenes[1]){
+        console.log("active scene: hallway");
+    }
+
     if(activeScene) activeScene.exit(); //exit old scene
     activeScene = scenes[i];
 
     activeScene.start(); //open new scene
+    if(activeScene == scenes[0]){
+        console.log("active scene: start");
+    }else if (activeScene == scenes[1]){
+        console.log("active scene: hallway");
+    }
     renderer.setAnimationLoop(() => {
         activeScene.updateRender();
         renderer.render(activeScene.getScene(), activeScene.getCamera());
