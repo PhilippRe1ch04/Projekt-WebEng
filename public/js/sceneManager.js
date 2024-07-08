@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {StartScene} from './startScene.js'
 import {HallwayScene} from './hallwayScene.js'
 
