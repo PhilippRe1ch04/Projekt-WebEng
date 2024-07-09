@@ -22,7 +22,7 @@ export function viewContent(){
 }
 
 export function closeContent(){
-    document.getElementById('content').style.visibility = 'hidden';
+    document.getElementById('content').style.visibility = "hidden";
     activeScene.addListeners();
 }
 

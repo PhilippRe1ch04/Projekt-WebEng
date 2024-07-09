@@ -8,15 +8,11 @@ nav{
     position: absolute;
     top: 0;
     left: 0;
-    background-color: rgb(58, 58, 58);
+    background-color: #3a3a3a;
     height: 3vh;
     width: 100vw;
-    transition: .8s;
+    transition: .2s;
     
-}
-
-nav:hover{
-    height: 7vh;
 }
 
 nav div{
@@ -40,12 +36,45 @@ nav div a{
     height: 95vh;
 }
 
-#userImgDiv{
+#userDiv{
+    position: absolute  ;
     float: right;
+    margin-right: 1vw;
+    align-items: end;
+    justify-content: start;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 3vh;
+    height: 3vh;
+    overflow: hidden;
+    z-index: 5;
 }
 
+#expand{
+    background-color: #3a3a3a;
+    color: whitesmoke;
+    display: block;
+    width: fit-content;
+    text-align: right;
+    padding: 2vw;
+    padding-top: 0;
+    border-radius: 0 0 3% 3%;
+}
+
+#expand button{
+    margin-bottom: 1vw;
+}
+
+#userDiv:hover{
+    height: fit-content;
+    width: fit-content;
+}
+
+
 #userImg{
-    height: 80%;
+    height: 2.5vh;
+    margin: .25vh;
 }
 
 #welcomeDiv{
@@ -124,6 +153,7 @@ footer{
     color: whitesmoke;
     top: 20%;
     height: 50%;
+    width: 100%;
 }
 
 .altText a{

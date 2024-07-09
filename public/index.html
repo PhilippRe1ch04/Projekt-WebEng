@@ -22,16 +22,23 @@
 				<a>Classic view</a>
 			</div>
 			<div>
-				<a>Login</a>
+				<a>About</a>
 			</div>
-			<div id="userImgDiv">
-				<img id='userImg' src='src/user.png' onclick='viewLogin();' alt='login'>
+			<div id="userDiv">
+				<img id='userImg' src='src/user.png' alt='login'>
+				<div id="expand">
+					<h1>Welcome user1</h1>
+					<button>profil</button><br>
+					<button>favorites</button><br>
+					<br>
+					<button onclick="viewLogin()">Login</button>
+				</div>
 			</div>
 		</nav>
 		<div id="overlay">
 			<div id="loginPopUp">
 				<button class="close-button" onclick="closeLogin()">X</button>
-				<div class="first active">
+				<div class="first">
 					<div class="form">
 						<h1>Register</h1>
 						<form class="loginform" id="registerForm">
@@ -55,7 +62,7 @@
 					</div>
 				</div>
 				
-				<div class="first">
+				<div class="first active">
 					<div class="form">
 						<h1>Login</h1>
 						<form class="loginform" id="loginForm">
