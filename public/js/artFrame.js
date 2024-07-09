@@ -3,8 +3,9 @@ import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 
 export class ArtFrame{
 
-    constructor(path){
+    constructor(path, db_id){
         this.path = path;
+        this.db_id = db_id;
 
         let group = new THREE.Group();
 

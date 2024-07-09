@@ -28,8 +28,7 @@ function getPosts() {
 
 function viewPosts(){
     getPosts().then(posts => {
-        console.log(posts.lenght);
-        if(posts.lenght > 0){
+        if(posts){
             posts.forEach((post) => {
                 var item = document.createElement("tr");
                 item.innerHTML = 

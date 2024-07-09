@@ -36,6 +36,29 @@ export class HallwayScene{
         this._clock.elapsedTime = 0;
     }
 
+    loadRandArtFrame(pos){
+        //get random id
+        fetch('/getRandomPost', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            let artFrame = new ArtFrame(data[0].href, data[0].id);
+            this._scene.add(artFrame);
+            artFrame.position.set(pos.x, pos.y, pos.z);
+            artFrame.rotation.y = -Math.PI/40*pos.x;
+            artFrame.castShadow = true;
+            artFrame.receiveShadow = true;
+            this.artFrames.push(artFrame);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });   
+    }
+
     updateRender() {
         var worldPos = new THREE.Vector3();
         this.artFrames[this.curr].getWorldPosition(worldPos);
@@ -54,14 +77,9 @@ export class HallwayScene{
             if(worldPos.z > 0){ //if artFrame next to stickman, spawn a new one
                 //view image in full size
                 this.curr += 1;
-
-                let artFrameX = new ArtFrame("src/klimaleugner.jpg");
-                this._scene.add(artFrameX);
                 var pos = 1;
                 if(this.curr%2) pos = -1;
-                artFrameX.position.set(10*pos, 0, -45);
-                artFrameX.rotation.y = Math.PI/4*-pos;
-                this.artFrames.push(artFrameX);
+                this.loadRandArtFrame(new THREE.Vector3(10*pos, 0, -45));
             }else if (worldPos.z < -15.5){
                 if(this.curr != 0){
                     this.curr -= 1;
@@ -143,25 +161,9 @@ export class HallwayScene{
     }
 
     loadArtFrames(){
-        let artFrame = new ArtFrame("src/monalisa.jpg");
-        this._scene.add(artFrame);
-        artFrame.position.set(10, 0, -15);
-        artFrame.rotation.y = -Math.PI/4;
-        artFrame.castShadow = true;
-        artFrame.receiveShadow = true;
-        this.artFrames.push(artFrame);
-
-        let artFrame2 = new ArtFrame("src/sbahn.png");
-        this._scene.add(artFrame2);
-        artFrame2.position.set(-10, 0, -30);
-        artFrame2.rotation.y = Math.PI/4;
-        this.artFrames.push(artFrame2);
-
-        let artFrame3 = new ArtFrame("src/heulsuse.png");
-        this._scene.add(artFrame3);
-        artFrame3.position.set(10, 0, -45);
-        artFrame3.rotation.y = -Math.PI/4;
-        this.artFrames.push(artFrame3);
+        this.loadRandArtFrame(new THREE.Vector3(10, 0, -15));
+        this.loadRandArtFrame(new THREE.Vector3(-10, 0, -30));
+        this.loadRandArtFrame(new THREE.Vector3(10, 0, -45));
     }
 
 

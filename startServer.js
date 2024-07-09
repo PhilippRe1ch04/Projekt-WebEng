@@ -92,6 +92,17 @@ app.post('/getPosts', (req, res) => {
   });
 });
 
+app.post('/getRandomPost', (req, res) => {
+  const query = 'SELECT id, href FROM posts ORDER BY RAND() LIMIT 1;';
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.error('Error fetching from database:', error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+    res.json(results);
+  });
+});
+
 app.post('/removePost', (req, res) => {
   const {id} = req.body;
   const query = 'DELETE FROM posts WHERE id = ?;';
