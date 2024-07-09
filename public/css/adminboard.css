@@ -54,6 +54,17 @@ table {
         text-align: center;
     }
 }
+
+p{
+    margin: 2vh;
+    text-align: center;
+}
+
+.preview{
+    width: auto;
+    height: 7vh;
+}
+
 button {
     padding: 10px;
     margin: 10px;

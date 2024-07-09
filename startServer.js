@@ -44,6 +44,8 @@ app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 
+
+//sql queries
 app.post('/login', (req, res) => {
   const { uname, psw } = req.body;
 
@@ -71,6 +73,33 @@ app.post('/register', (req, res) => {
       return res.status(500).json({ error: 'Internal Server Error' });
     }
 
+    if (results.affectedRows > 0) {
+      res.json({ success: true });
+    } else {
+      res.json({ success: false });
+    }
+  });
+});
+
+app.post('/getPosts', (req, res) => {
+  const query = 'SELECT id, href, title, date, likes FROM posts;';
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.error('Error fetching from database:', error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+    res.json(results);
+  });
+});
+
+app.post('/removePost', (req, res) => {
+  const {id} = req.body;
+  const query = 'DELETE FROM posts WHERE id = ?;';
+  connection.query(query, [id], (error, results) => {
+    if (error) {
+      console.error('Error removing post from database:', error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
     if (results.affectedRows > 0) {
       res.json({ success: true });
     } else {
