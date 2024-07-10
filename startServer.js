@@ -57,10 +57,10 @@ app.listen(PORT, () => {
 
 //checks if given username & password fits to db
 app.post('/login', (req, res) => {
-  const { uname, uemail, psw } = req.body;
+  const { uname, psw } = req.body;
 
   const query = 'SELECT * FROM user WHERE (username = ? OR email = ?) AND password = ?';
-  connection.query(query, [uname, uemail, psw], (error, results) => {
+  connection.query(query, [uname, uname, psw], (error, results) => {
     if (error) {
       console.error('Error checking value in database:', error);
       return res.status(500).json({ error: 'Internal Server Error' });
@@ -77,7 +77,7 @@ app.post('/login', (req, res) => {
 //register new user (create new entry in db)
 app.post('/register', (req, res) => {
   const { uname, uemail, psw } = req.body;
-  const query = 'INSERT INTO user (username, email, password) VALUES (?, ?, ?);';
+  const query = 'INSERT INTO user (username, email, password, likedPosts) VALUES (?, ?, ?, []);';
   connection.query(query, [uname, uemail, psw], (error, results) => {
     if (error) {
       console.error('Error checking value in database:', error);
@@ -128,6 +128,62 @@ app.post('/getPost', (req, res) => {
     res.json(results);
   });
 });
+
+//add post to liked list of user
+app.post('/likePost', (req, res) => {
+  const {userId, postId} = req.body;
+  const query = "UPDATE user SET likedPosts = JSON_ARRAY_APPEND(likedPosts, '$', ?) WHERE id = ?;";
+  connection.query(query, [postId, userId], (error, results) => {
+    if (error) {
+      console.error('Error fetching from database:', error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+    res.json(results);
+  });
+});
+
+//remove post from liked list of user
+app.post('/dislikePost', (req, res) => {
+  const {userId , index} = req.body;
+  
+  const query = "UPDATE user SET likedPosts = JSON_REMOVE(likedPosts, '$[?]') WHERE id = ?;";
+  
+  connection.query(query, [index, userId], (error, results) => {
+    if (error) {
+      console.error('Error fetching from database:', error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+    console.log(results);
+    res.json(results);
+  });
+});
+
+//returns all liked Posts from user
+app.post('/getLikedPosts', (req, res) => {
+  const {userId} = req.body;
+  const query = "SELECT likedPosts From user WHERE id = ?;";
+  connection.query(query, [userId], (error, results) => {
+    if (error) {
+      console.error('Error fetching from database:', error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+    res.json(results);
+  });
+});
+
+//returns userId of user
+app.post('/getUserID', (req, res) => {
+  const {uname} = req.body;
+  const query = 'SELECT id FROM user WHERE username = ?;';
+  connection.query(query, [uname], (error, results) => {
+    if (error) {
+      console.error('Error fetching from database:', error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+    res.json(results[0].id);
+  });
+});
+
 
 //removes a  post by id 
 app.post('/removePost', (req, res) => {
