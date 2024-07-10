@@ -2,8 +2,9 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>Art Galery</title>
+		<title>Art Gallery</title>
 		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/nav.css">
 		<script type="text/javascript" src="js/content.js" defer></script>
 		<script type="text/javascript" src="js/login.js" defer></script>
 		<script type="importmap">
@@ -18,8 +19,11 @@
 	<body>
 		<script type="module" src="js/sceneManager.js"></script>
 		<nav>
+			<div id="navTitle">
+				<h1>Art Gallery</h1>
+			</div>
 			<div>
-				<a>Classic view</a>
+				<a href="./classic.html">Classic view</a>
 			</div>
 			<div>
 				<a>About</a>
@@ -88,12 +92,15 @@
 				<button class="close-button" onclick='closeContent();'>X</button>
 				<div id="image-holder">
 					<img src="posts/placeholder.png" alt="image">
-					<br>
-					<br>
-					<button class="buttons">Like</button>
-					<button class="buttons">Comment</button>
-					<p>Artist: Artist</p>
-					<p>Date: Date</p>
+					<div>
+						<p id="title">Title</p>
+						<div id="buttons">
+							<button class="buttons">Like</button>
+							<button class="buttons">Comment</button>
+						</div>
+					</div>
+					<p id="artist">Artist: Artist</p>
+					<p id="date">Date: Date</p>
 				</div>
 				<div id="comments">
 					<div id="1" class="comment">
