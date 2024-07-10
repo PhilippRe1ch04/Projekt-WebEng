@@ -37,6 +37,7 @@ function loadContent(postId){
         console.error('Error:', error);
     });
 
+    if(sessionStorage.getItem("id") == null) return;
     //Api call --> get liked posts to check if current post is already liked
     fetch('/getLikedPosts', {
         method: 'POST',
@@ -65,6 +66,10 @@ function likeComment(comment){
 }
 
 function likePostHandler(){
+    if(sessionStorage.getItem("id") == null){
+        viewLogin();
+        return;
+    }
     //Api call --> get liked posts to check if current post is already liked
     fetch('/getLikedPosts', {
         method: 'POST',
