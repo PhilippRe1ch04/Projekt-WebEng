@@ -1,5 +1,6 @@
 var tbody = document.getElementById("tablebody");
 
+//function to get all Posts from db (all db posts entries)
 function getPosts() {
     return fetch('/getPosts', {
         method: 'POST',
@@ -25,10 +26,13 @@ function getPosts() {
     });
 }
 
-
+//function called to add posts to table in html file
+//create for each db entry one row in table
 function viewPosts(){
+    //calls getPost function which returns all db post entries
     getPosts().then(posts => {
         if(posts){
+            //create for each post a html row
             posts.forEach((post) => {
                 var item = document.createElement("tr");
                 item.innerHTML = 
@@ -47,7 +51,7 @@ function viewPosts(){
                 </td>`;
                 tbody.appendChild(item);
             });
-        }else{
+        }else{ //if database is empty
             var text = document.createElement("p");
             text.innerText = "Aktuell gibt es keine Posts. Bitte füge zuerst einen hinzu.";
             tbody.parentNode.parentNode.append(text);
@@ -60,9 +64,11 @@ function viewPosts(){
     });
 }
 
+//function called to delete a Post entrie
 function deletePost(e){
-    let id = e.parentNode.parentNode.parentNode.childNodes[0].innerHTML; 
+    let id = e.parentNode.parentNode.parentNode.childNodes[0].innerHTML; //get ID from Table
 
+    //call API to remove db entry by id
     fetch('/removePost', {
         method: 'POST',
         headers: {
@@ -84,5 +90,8 @@ function deletePost(e){
     });
 }
 
+
+/*================*/
+//on page load
 viewPosts();
 

@@ -1,19 +1,24 @@
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 
-var mouseX = 0, mouseY = 0;
+var mouseX = 0, mouseY = 0; //store value of mouse position on screen
 
+//HallwayScene class is instantiating a scene
 export class StartScene {
-    constructor() {
+    constructor() {//called once at the beginning
+        //init main objecs
         this._clock = new THREE.Clock();
         this._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         this._scene = new THREE.Scene();
-
+        
+        //init enviroment
         this.initEnv();
 
+        //init clock
         this._clock.start();
     }
 
+    //function called everytime the scene is loaded
     start(){
         this.loadOverlay();
         this.addListeners();
@@ -21,25 +26,31 @@ export class StartScene {
         this._clock.elapsedTime = 0;
     }
 
+    //function called by sceneManager to update renderer (called every frame)
     updateRender() {
         const delta = this._clock.getDelta();
 
-        if (this.skybox) { //rotate sky
+        //rotate sky
+        if (this.skybox) { 
             this.skybox.rotation.y += 0.0001;
         }
-        if (this.animmixer_pl) { //play stickman idle animation
+
+        //play stickman idle animation
+        if (this.animmixer_pl) { 
             this.animmixer_pl.update(delta / 1.5);
         }
 
+        //if 5 seconds elapsed --> show enter key reminder
         if(this._clock.elapsedTime > 5){
             this._scene.add(this.enterKey);
             this.animmixer_key.update(delta/1.5);
         }
 
-        
-        if(this.stickman) this.stickman.lookAt(mouseX, 0, 30); //stickman look at mouse
+         //stickman look at mouse position
+        if(this.stickman) this.stickman.lookAt(mouseX, 0, 30);
     }
 
+    //function to init light in scene
     initLight() {
         const amlight = new THREE.AmbientLight(0x404040, 30); // soft white background light
         this._scene.add(amlight);
@@ -61,11 +72,12 @@ export class StartScene {
         dirlight.shadow.camera.bottom = -50;
     }
 
+    //function to load and return 3d model
     initModel(path, onLoadCallback) {
         const loader = new GLTFLoader();
         //load model
         loader.load(path, (gltf) => {
-            //cast shadow = true
+            //cast shadow --> every mesh in model
             gltf.scene.traverse((child) => {
                 if (child.isMesh) {
                     child.castShadow = true;
@@ -80,19 +92,21 @@ export class StartScene {
         });
     }
 
+    //function to init enviroment of scene
     initEnv() {
         this.initLight();
 
+        //add building to scene
         this.initModel('src/3d/Art_Gallery.glb', (artGallery) => {
             artGallery.rotation.y = Math.PI; //rotate obj
             this._scene.add(artGallery);
         });
-
+        //add skybox
         this.initModel('src/3d/skybox.glb', (skybox) => {
             this.skybox = skybox;
             this._scene.add(this.skybox);
         });
-
+        //add stickman
         this.initModel('src/3d/gentle_stickman.glb', (stickman, animations) => {
             this.stickman = stickman;
             this.stickman.position.set(1, 0, 5); //set pos
@@ -105,6 +119,7 @@ export class StartScene {
             this._scene.add(this.stickman);
         });
 
+        //init enter key (reminder after 5 seconds)
         this.initModel('src/3d/keyboard_enter.glb', (enterKey, animations) => {
             this.enterKey = enterKey;
             this.enterKey.position.set(-0.5, 0, 6);
@@ -117,7 +132,7 @@ export class StartScene {
             });
         });
 
-        this._camera.position.set(0, 5, 14);
+        this._camera.position.set(0, 5, 14); //set camera position
     }
 
     getScene() {
@@ -128,6 +143,7 @@ export class StartScene {
         return this._camera;
     }
 
+    //add listeners and bind them to this scene object (variable access)
     addListeners(){
         this.boundMousemove = this.mousemove.bind(this);
         this.boundKeydown = this.keydown.bind(this);
@@ -136,19 +152,21 @@ export class StartScene {
         document.addEventListener('keydown', this.boundKeydown);
     }
 
+    //on keydown input
     keydown(e){
-        
+        //if enter is pressed --> load hallway scene
         if(e.code === 'Enter'){
-            console.log("load scene");
             loadScene(1);
         }
     }
 
+    //if mouse moves --> update variables
     mousemove(e){
         mouseX = (e.clientX - window.innerWidth / 2) *0.02;
         mouseY = (e.clientY - window.innerHeight / 2) * 0.02;
     }
 
+    //load overlay (welcomeText)
     loadOverlay(){
         var overlayDiv = document.getElementById("overlay");
         var welcomeSection = document.createElement('div');
@@ -157,6 +175,7 @@ export class StartScene {
         overlayDiv.appendChild(welcomeSection);
     }
 
+    //function called by sceneManager on exiting scene
     exit(){
         document.removeEventListener('mousemove', this.boundMousemove);
         document.removeEventListener('keydown', this.boundKeydown);
