@@ -152,6 +152,12 @@ export class StartScene {
         document.addEventListener('keydown', this.boundKeydown);
     }
 
+    //remove EventListeners
+    removeListeners(){
+        document.removeEventListener('keydown', this.boundKeydown);
+        document.removeEventListener('mousemove', this.boundMousemove);
+    }
+
     //on keydown input
     keydown(e){
         //if enter is pressed --> load hallway scene

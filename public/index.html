@@ -32,11 +32,11 @@
 			<div id="userDiv">
 				<img id='userImg' src='src/user.png' alt='login'>
 				<div id="expand">
-					<h1>Welcome user1</h1>
+					<h1 id="username">guest</h1>
 					<button>profil</button><br>
 					<button>favorites</button><br>
 					<br>
-					<button onclick="viewLogin()">Login</button>
+					<button id="loginbutton" onclick="viewLogin()">Login</button>
 				</div>
 			</div>
 		</nav>
@@ -96,8 +96,7 @@
 					<div>
 						<p id="title">Title</p>
 						<div id="buttons">
-							<button class="buttons">Like</button>
-							<button class="buttons">Comment</button>
+							<button class="buttons" onclick="like()">Like</button>
 						</div>
 					</div>
 					<p id="artist">Artist: Artist</p>

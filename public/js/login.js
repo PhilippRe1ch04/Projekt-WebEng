@@ -1,3 +1,6 @@
+let username = sessionStorage.getItem("uname");
+if(username != null) document.getElementById("username").innerHTML = username;
+
 //add evenetListener on submit click of loginForm
 document.getElementById('loginForm').addEventListener('submit', function(event) {
     event.preventDefault();
@@ -45,6 +48,11 @@ function register(){
         const resultP = document.getElementById('registerResult');
         if (data.success) {
             resultP.innerText = 'Registered successful!';
+            sessionStorage.setItem("uname", formData.get('uname'));
+            sessionStorage.setItem("psw", formData.get('psw'));
+            document.getElementById("username").innerText = formData.get('uname');
+            document.getElementById("loginbutton").innerText = "Logout";
+            closeLogin();
         } else {
             resultP.innerText = 'Username or Email is already used.';
         }
@@ -60,7 +68,6 @@ function login() {
     const formData = new FormData(document.getElementById('loginForm'));
     const data = {
         uname: formData.get('uname'),
-        uemail: formData.get('uemail'),
         psw: formData.get('psw')
     };
 
@@ -77,6 +84,11 @@ function login() {
         const resultP = document.getElementById('loginResult');
         if (data.success) {
             resultP.innerText = 'Login successful!';
+            sessionStorage.setItem("uname", formData.get('uname'));
+            sessionStorage.setItem("psw", formData.get('psw'));
+            document.getElementById("username").innerText = formData.get('uname');
+            document.getElementById("loginbutton").innerText = "Logout";
+            closeLogin();
         } else {
             resultP.innerText = 'Invalid username or password';
         }

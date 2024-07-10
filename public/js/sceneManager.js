@@ -9,6 +9,15 @@ var renderer; //stores active renderer
 
 //function to show login as PopUp 
 function viewLogin(){
+    if(sessionStorage.getItem("uname") != null){
+        sessionStorage.removeItem("uname");
+        sessionStorage.removeItem("psw");
+        document.getElementById("username").innerText = "guest";
+        document.getElementById("loginbutton").innerText = "Login";
+        return;
+    }
+    closeContent();
+    activeScene.removeListeners();
     document.getElementById("overlay").style.backgroundColor = '#00000098';
     let loginDiv = document.getElementById("loginPopUp");
     loginDiv.style.visibility = 'visible';
@@ -16,6 +25,7 @@ function viewLogin(){
 
 //function to hide login PopUp
 function closeLogin(){
+    activeScene.addListeners();
     document.getElementById("overlay").style.backgroundColor = null;
     let loginDiv = document.getElementById("loginPopUp");
     loginDiv.style.visibility = 'hidden';

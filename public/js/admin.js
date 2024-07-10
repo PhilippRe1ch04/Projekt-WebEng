@@ -1,4 +1,5 @@
 var tbody = document.getElementById("tablebody");
+if(sessionStorage.getItem("uname") != "admin") window.location.href = "/";
 
 //function to get all Posts from db (all db posts entries)
 function getPosts() {
