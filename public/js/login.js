@@ -35,7 +35,6 @@ function viewLogin(){
         //classic view
     }
     
-    document.getElementById("overlay").style.backgroundColor = '#00000098';
     let loginDiv = document.getElementById("loginPopUp");
     loginDiv.style.visibility = 'visible';
 }
@@ -48,7 +47,6 @@ function closeLogin(){
         //classic view
     }
     
-    document.getElementById("overlay").style.backgroundColor = null;
     let loginDiv = document.getElementById("loginPopUp");
     loginDiv.style.visibility = 'hidden';
 }

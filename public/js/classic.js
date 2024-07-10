@@ -23,6 +23,7 @@ function loadPost(){
         .then(response => response.json())
         .then(data =>{
             post.innerHTML = "<img src="+  data[0].href +" alt=" + data[0].title + " >";
+            post.onclick = viewContent;
             content.appendChild(post);
         })
         .catch(error => {

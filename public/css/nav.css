@@ -1,13 +1,22 @@
+#overlay{
+    position: fixed;
+    top: 3vh;
+    left: 0;
+    width: 100vw;
+    height: 97vh;
+    z-index: 1;
+}
+
 /*Navbar*/
 nav{
-    position: sticky;
+    position: fixed;
     top: 0;
     left: 0;
     background-color: #3a3a3a;
     height: 3vh;
     width: 100vw;
     transition: .2s;
-    z-index: 2;
+    z-index: 3;
 }
 
 nav div{
@@ -83,13 +92,21 @@ footer{
 
 /*login popup*/ 
 #loginPopUp{
+    background-color: #00000080;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    z-index: 5;
+    visibility: hidden;
+}
+
+#loginPopUpContent{
     background-color: #3b3b3b;
     position: absolute;
     top: 25vh;
     left: 25vw;
     height: 50vh;
     width: 50vw;
-    visibility: hidden;
     text-align: center;
     z-index: 2;
     border-radius: 1vw;

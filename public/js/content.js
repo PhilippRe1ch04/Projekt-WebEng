@@ -1,15 +1,13 @@
 //function to show content of Frame as PopUp
 //export --> so scene Objects can call this function
 function viewContent(postId){
-    document.getElementById("overlay").style.backgroundColor = '#00000098';
-    document.getElementById('content').style.visibility = "visible";
+    document.getElementById('contentPopUp').style.visibility = "visible";
     loadContent(postId);
 }
 
 //close content PopUp
 function closeContent(){
-    document.getElementById("overlay").style.backgroundColor = null;
-    document.getElementById('content').style.visibility = "hidden";
+    document.getElementById('contentPopUp').style.visibility = "hidden";
     try{
         getActiveScene().addListeners();
     }catch(e){

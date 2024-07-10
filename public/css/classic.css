@@ -1,45 +1,47 @@
 body{
-    margin: 0;
-    width: 100vw;
-    overflow-x: hidden;
+  position: relative;
+  margin: 0;
+  width: 100vw;
+  overflow-x: hidden;
 }
 
 /* classic */
 #classicContent{
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  z-index: 1;
 }
 
 #classicContent div{
-    height: 23vw;
-    width: 23vw;
-    min-width: 300px;
-    min-height: 300px;
-    display: flex;
-    background-color: #ffb432ca;
-    border-radius: 15px;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    margin: 1%;
+  height: 23vw;
+  width: 23vw;
+  min-width: 300px;
+  min-height: 300px;
+  display: flex;
+  background-color: #ffb432ca;
+  border-radius: 15px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 1%;
 }
 
 #classicContent div img{
-    max-width: 90%;
-    max-height: 90%;
+  max-width: 90%;
+  max-height: 90%;
 }
 
 #classicContent div:hover{
-    border-radius: 15px;
-    transform: scale(1.02);
+  border-radius: 15px;
+  transform: scale(1.02);
 }
 
 /* width */
 ::-webkit-scrollbar {
-    z-index: 0;
-    width: 10px;
+  z-index: 0;
+  width: 10px;
   }
   
   /* Track */
