@@ -7,45 +7,6 @@ var activeScene; //stores active scene
 
 var renderer; //stores active renderer
 
-//function to show login as PopUp 
-function viewLogin(){
-    if(sessionStorage.getItem("uname") != null){
-        sessionStorage.removeItem("uname");
-        sessionStorage.removeItem("id");
-        document.getElementById("username").innerText = "guest";
-        document.getElementById("loginbutton").innerText = "Login";
-        return;
-    }
-    closeContent();
-    activeScene.removeListeners();
-    document.getElementById("overlay").style.backgroundColor = '#00000098';
-    let loginDiv = document.getElementById("loginPopUp");
-    loginDiv.style.visibility = 'visible';
-}
-
-//function to hide login PopUp
-function closeLogin(){
-    activeScene.addListeners();
-    document.getElementById("overlay").style.backgroundColor = null;
-    let loginDiv = document.getElementById("loginPopUp");
-    loginDiv.style.visibility = 'hidden';
-}
-
-//function to show content of Frame as PopUp
-//export --> so scene Objects can call this function
-export function viewContent(postId){
-    document.getElementById("overlay").style.backgroundColor = '#00000098';
-    document.getElementById('content').style.visibility = "visible";
-    loadContent(postId);
-}
-
-//close content PopUp
-function closeContent(){
-    document.getElementById("overlay").style.backgroundColor = null;
-    document.getElementById('content').style.visibility = "hidden";
-    activeScene.addListeners();
-}
-
 //function which is closing old scene and opening new Scene (i --> SceneID of new Scene) 
 //export --> so scene Objects can call this function
 export function loadScene(i){ //function to switch between scenes
@@ -61,8 +22,7 @@ export function loadScene(i){ //function to switch between scenes
 }
 
 //function returns current scene
-//export --> so scene Objects can call this function
-export function getActiveScene(){
+function getActiveScene(){
     return activeScene;
 }
 
@@ -94,10 +54,7 @@ initScenes();
 loadScene(0); //load startScene
 
 window.loadScene = loadScene;
-window.viewLogin = viewLogin;
-window.closeLogin = closeLogin;
-window.closeLogin = closeLogin;
-window.closeContent = closeContent;
+window.getActiveScene = getActiveScene;
 
 //add Resize-EventListener -> so renderer is responsive
 window.addEventListener('resize', () => {

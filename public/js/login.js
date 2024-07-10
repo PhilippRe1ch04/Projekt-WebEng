@@ -16,6 +16,43 @@ document.getElementById('registerForm').addEventListener('submit', function(even
     register();
 });
 
+window.viewLogin = viewLogin;
+window.closeLogin = closeLogin;
+
+//function to show login as PopUp 
+function viewLogin(){
+    if(sessionStorage.getItem("uname") != null){
+        sessionStorage.removeItem("uname");
+        sessionStorage.removeItem("id");
+        document.getElementById("username").innerText = "guest";
+        document.getElementById("loginbutton").innerText = "Login";
+        return;
+    }
+    closeContent();
+    try{
+        getActiveScene().removeListeners();
+    }catch(e){
+        //classic view
+    }
+    
+    document.getElementById("overlay").style.backgroundColor = '#00000098';
+    let loginDiv = document.getElementById("loginPopUp");
+    loginDiv.style.visibility = 'visible';
+}
+
+//function to hide login PopUp
+function closeLogin(){
+    try{
+        getActiveScene().addListeners();
+    }catch(e){
+        //classic view
+    }
+    
+    document.getElementById("overlay").style.backgroundColor = null;
+    let loginDiv = document.getElementById("loginPopUp");
+    loginDiv.style.visibility = 'hidden';
+}
+
 //function called to switch forms
 function changeMethod(){
     let firsts = document.getElementsByClassName("first"); //first is parent div
@@ -50,7 +87,7 @@ function register(){
     .then(data => {
         const resultP = document.getElementById('registerResult');
         if (data.success) {  
-                    
+
             //call API to get created entry/user id
             fetch('/getUserID', {
                 method: 'POST',

@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {ArtFrame} from './artFrame.js';
-import { getActiveScene, viewContent } from './sceneManager.js';
 
 //HallwayScene class is instantiating a scene
 export class HallwayScene{
