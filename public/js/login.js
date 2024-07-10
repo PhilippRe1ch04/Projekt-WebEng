@@ -1,5 +1,8 @@
 let username = sessionStorage.getItem("uname");
-if(username != null) document.getElementById("username").innerHTML = username;
+if(username != null){
+    document.getElementById("username").innerHTML = username;
+    document.getElementById("loginbutton").innerText = "Logout";
+}
 
 //add evenetListener on submit click of loginForm
 document.getElementById('loginForm').addEventListener('submit', function(event) {
@@ -46,10 +49,26 @@ function register(){
     .then(response => response.json())
     .then(data => {
         const resultP = document.getElementById('registerResult');
-        if (data.success) {
+        if (data.success) {  
+                    
+            //call API to get created entry/user id
+            fetch('/getUserID', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData.get('uname'))
+            })
+            .then(response => response.json())
+            .then(data => {
+                sessionStorage.setItem("id", data);
+                sessionStorage.setItem("username", formData.get("uname"));
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
             resultP.innerText = 'Registered successful!';
-            sessionStorage.setItem("uname", formData.get('uname'));
-            sessionStorage.setItem("psw", formData.get('psw'));
             document.getElementById("username").innerText = formData.get('uname');
             document.getElementById("loginbutton").innerText = "Logout";
             closeLogin();
@@ -83,9 +102,25 @@ function login() {
     .then(data => {
         const resultP = document.getElementById('loginResult');
         if (data.success) {
+
+            //call API to get created entry/user id
+            fetch('/getUserID', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({"uname" : formData.get('uname')})
+            })
+            .then(response => response.json())
+            .then(data => {
+                sessionStorage.setItem("id", data);
+                sessionStorage.setItem("uname", formData.get("uname"));
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
             resultP.innerText = 'Login successful!';
-            sessionStorage.setItem("uname", formData.get('uname'));
-            sessionStorage.setItem("psw", formData.get('psw'));
             document.getElementById("username").innerText = formData.get('uname');
             document.getElementById("loginbutton").innerText = "Logout";
             closeLogin();

@@ -11,7 +11,7 @@ var renderer; //stores active renderer
 function viewLogin(){
     if(sessionStorage.getItem("uname") != null){
         sessionStorage.removeItem("uname");
-        sessionStorage.removeItem("psw");
+        sessionStorage.removeItem("id");
         document.getElementById("username").innerText = "guest";
         document.getElementById("loginbutton").innerText = "Login";
         return;
@@ -35,26 +35,8 @@ function closeLogin(){
 //export --> so scene Objects can call this function
 export function viewContent(postId){
     document.getElementById("overlay").style.backgroundColor = '#00000098';
-    //Api call --> get all information from post
-    fetch('/getPost', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({id : postId})
-    })
-    .then(response => response.json())
-    .then(data => {
-        //set content of PopUp
-        document.getElementById('content').style.visibility = "visible";
-        document.getElementById('image-holder').childNodes[1].src = data[0].href;
-        document.getElementById('title').innerHTML = data[0].title;
-        document.getElementById('artist').innerHTML = "@" + data[0].artist;
-        document.getElementById('date').innerHTML = data[0].date;
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+    document.getElementById('content').style.visibility = "visible";
+    loadContent(postId);
 }
 
 //close content PopUp
