@@ -5,20 +5,39 @@
     <title>Art Gallery</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/nav.css">
-    <link rel="stylesheet" type="text/css" href="./css/adminboard.css">
+    <link rel="stylesheet" href="css/adminboard.css">
     <link rel="icon" type="image/x-icon" href="./src/artgallery_icon.ico">
     <script type="text/javascript" src="js/content.js" defer></script>
     <script src="./js/admin.js" defer></script>
 </head>
 <body>
-    <h1>Admin Board</h1>
+    <nav>
+        <div id="navTitle">
+            <h1>Art Gallery</h1>
+        </div>
+        <div>
+            <a href="/">Home</a>
+        </div>
+        <div id="userDiv">
+            <img id='userImg' src='src/user.png' alt='login'>
+            <div id="expand">
+                <h1 id="username">guest</h1>
+                <button>profil</button><br>
+                <a href="/"><button>home</button></a><br>
+                <br>
+                <button id="loginbutton" onclick="viewLogin()">Login</button>
+            </div>
+        </div>
+    </nav>
+    <h1 style="margin-top: 5vh;">Admin Board</h1>
     <table>
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Preview Pic</th>
-                <th>Art Piece</th>
+                <th>Name</th>
                 <th>Upload Date</th>
+                <th>Views</th>
                 <th>Favorites</th>
                 <th>Controls</th>
             </tr>

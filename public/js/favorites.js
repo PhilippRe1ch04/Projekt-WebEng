@@ -1,15 +1,15 @@
 var content = document.getElementById("classicContent");
-document.addEventListener('scroll', scrolled);
 
-function loadPost(){
+function loadPost(id){
     var post = document.createElement('div');
 
     //call API to get random Post id
-    fetch('/getRandomPost', {
+    fetch('/getPost', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
-        }
+        },
+        body: JSON.stringify({"id": id})
     })
     .then(response => response.json())
     .then(data => {
@@ -39,15 +39,31 @@ function loadPost(){
     
 }
 
-function scrolled() {
-    if(window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-        for (let i = 0; i < 3; i++) {
-            loadPost();
-        }
-    }
-    
-}
 
-for (let i = 0; i < 30; i++) {
-    loadPost();
+var userId = sessionStorage.getItem("id");
+if (userId != null){
+    //API to get all data of post
+    fetch('/getlikedPosts', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"userId" : userId})
+    })
+    .then(response => response.json())
+    .then(data =>{
+        if(data[0].likedPosts.length != 0){
+            data[0].likedPosts.forEach(postId => {
+                loadPost(postId);
+            });;
+        }else{
+            content.innerHTML ="<p>You have no favorite Posts yet. Please like some posts first.</p>";
+        }
+        
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}else{
+    viewLogin();
 }

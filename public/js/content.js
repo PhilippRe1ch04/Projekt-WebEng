@@ -22,10 +22,21 @@ function loadContent(postId){
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({id : postId})
+        body: JSON.stringify({"id" : postId})
     })
     .then(response => response.json())
     .then(data => {
+        //Api call --> get update number of views
+        fetch('/updatePostViews', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({"postId" : postId})
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
         //set content of PopUp
         document.getElementById('image-holder').childNodes[1].src = data[0].href;
         document.getElementById('title').innerHTML = data[0].title;
@@ -109,6 +120,7 @@ function likePost(){
         body: JSON.stringify({"userId" : userId, "postId" : postId})
     })
     .then(() =>{
+        console.log("update");
         loadContent(postId);
     })
     .catch(error => {
@@ -142,7 +154,7 @@ function dislikePost(){
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({"userId" : userId, "index" : index})
+            body: JSON.stringify({"userId" : userId, "index" : index, "postId" : postId})
         })
         .then(() =>{
             loadContent(postId);

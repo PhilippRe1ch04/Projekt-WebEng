@@ -41,6 +41,10 @@ app.get('/classic', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'classic.html'));
 });
 
+app.get('/favorites', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'favorites.html'));
+});
+
 app.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'admin.html'));
 });
@@ -94,7 +98,7 @@ app.post('/register', (req, res) => {
 
 //returns all posts
 app.post('/getPosts', (req, res) => {
-  const query = 'SELECT id, href, title, date, likes FROM posts;';
+  const query = 'SELECT * FROM posts;';
   connection.query(query, (error, results) => {
     if (error) {
       console.error('Error fetching from database:', error);
@@ -118,9 +122,9 @@ app.post('/getRandomPost', (req, res) => {
 
 //returns all data of a post (requires id of  searched post)
 app.post('/getPost', (req, res) => {
-  const {id} = req.body;
+  const {postId} = req.body;
   const query = 'SELECT * FROM posts WHERE id = ? ;';
-  connection.query(query, [id], (error, results) => {
+  connection.query(query, [postId], (error, results) => {
     if (error) {
       console.error('Error fetching from database:', error);
       return res.status(500).json({ error: 'Internal Server Error' });
@@ -129,14 +133,34 @@ app.post('/getPost', (req, res) => {
   });
 });
 
-//add post to liked list of user
-app.post('/likePost', (req, res) => {
-  const {userId, postId} = req.body;
-  const query = "UPDATE user SET likedPosts = JSON_ARRAY_APPEND(likedPosts, '$', ?) WHERE id = ?;";
-  connection.query(query, [postId, userId], (error, results) => {
+//increments number of views of post
+app.post('/updatePostViews', (req, res) => {
+  const {postId} = req.body;
+  const query = 'UPDATE posts SET views = views + 1 WHERE id = ?;';
+  connection.query(query, [postId], (error, results) => {
     if (error) {
       console.error('Error fetching from database:', error);
       return res.status(500).json({ error: 'Internal Server Error' });
+    }
+    res.json(results);
+  });
+});
+
+
+//add post to liked list of user
+app.post('/likePost', (req, res) => {
+  const {userId, postId} = req.body;
+  const query1 = `UPDATE user SET likedPosts = JSON_ARRAY_APPEND(likedPosts, '$', ?) WHERE id = ?;`;
+  const query2 = `UPDATE posts SET likes = likes + 1 WHERE id = ?;`;
+  connection.query(query1, [postId, userId], (error) => {
+    if (error) {
+      console.error('Error executing query1:', error);
+    } else {
+      connection.query(query2, [postId], (error) => {
+        if (error) {
+          console.error('Error executing query2:', error);
+        }
+      });
     }
     res.json(results);
   });
@@ -144,17 +168,23 @@ app.post('/likePost', (req, res) => {
 
 //remove post from liked list of user
 app.post('/dislikePost', (req, res) => {
-  const {userId , index} = req.body;
+  const {userId , index, postId} = req.body;
   
-  const query = "UPDATE user SET likedPosts = JSON_REMOVE(likedPosts, '$[?]') WHERE id = ?;";
-  
-  connection.query(query, [index, userId], (error, results) => {
+  const query1 = `UPDATE user SET likedPosts = JSON_REMOVE(likedPosts, '$[?]') WHERE id = ?;`;
+  const query2 = ` UPDATE posts SET likes = likes - 1 WHERE id = ?;`;
+  connection.query(query1, [index, userId], (error, results) => {
     if (error) {
-      console.error('Error fetching from database:', error);
-      return res.status(500).json({ error: 'Internal Server Error' });
+      console.error('Error executing query1:', error);
+    } else {
+      console.log('Results query1:', results);
+      connection.query(query2, [postId], (error, results) => {
+        if (error) {
+          console.error('Error executing query2:', error);
+        } else {
+          console.log('Results query2:', results);
+        }
+      });
     }
-    console.log(results);
-    res.json(results);
   });
 });
 

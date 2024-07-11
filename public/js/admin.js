@@ -18,7 +18,6 @@ function getPosts() {
         
     })
     .then(data => {
-        console.log(data);
         return data; // Return the fetched data
     })
     .catch(error => {
@@ -41,6 +40,7 @@ function viewPosts(){
                 <td><img class="preview" src="` + post.href + `" alt="preview"></td>
                 <td>` + post.title + `</td>
                 <td>`+ post.date + `</td>
+                <td>`+ post.views + `</td>
                 <td>` + post.likes + `</td>    
                 <td>
                     <button>
