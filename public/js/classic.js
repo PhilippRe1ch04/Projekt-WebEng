@@ -1,4 +1,5 @@
 var content = document.getElementById("classicContent");
+document.addEventListener('scroll', scrolled);
 
 function loadPost(){
     var post = document.createElement('div');
@@ -38,6 +39,14 @@ function loadPost(){
     
 }
 
+function scrolled() {
+    if(window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        for (let i = 0; i < 2; i++) {
+            loadPost();
+        }
+    }
+    
+}
 
 for (let i = 0; i < 30; i++) {
     loadPost();
