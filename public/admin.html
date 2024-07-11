@@ -51,5 +51,25 @@
         <tbody id="tablebody">
         </tbody>
     </table>
+    <div id="addPostHolder">
+        <div id="addPost">
+            <form action="upload.php" method="post" enctype="multipart/form-data">
+                <label for="image">Upload Image:</label>
+                <ln></ln>
+                <input type="file" id="image" name="image" accept="image/*" required><br><br>
+        
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required><br><br>
+        
+                <label for="author">Author:</label>
+                <input type="text" id="author" name="author" required><br><br>
+        
+                <label for="comment">Comment:</label><br>
+                <textarea id="comment" name="comment" rows="4" cols="50" optional></textarea><br><br>
+        
+                <input type="submit" value="Upload">
+            </form>
+        </div>
+    </div>
 </body>
 </html>
