@@ -22,7 +22,7 @@ function loadContent(postId){
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({"id" : postId})
+        body: JSON.stringify({"postId" : postId})
     })
     .then(response => response.json())
     .then(data => {

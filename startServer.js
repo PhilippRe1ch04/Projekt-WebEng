@@ -81,7 +81,7 @@ app.post('/login', (req, res) => {
 //register new user (create new entry in db)
 app.post('/register', (req, res) => {
   const { uname, uemail, psw } = req.body;
-  const query = 'INSERT INTO user (username, email, password, likedPosts) VALUES (?, ?, ?, []);';
+  const query = 'INSERT INTO user (username, email, password, likedPosts) VALUES (?, ?, ?, "[]");';
   connection.query(query, [uname, uemail, psw], (error, results) => {
     if (error) {
       console.error('Error checking value in database:', error);

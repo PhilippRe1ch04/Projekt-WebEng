@@ -92,7 +92,7 @@ function register(){
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formData.get('uname'))
+                body: JSON.stringify({"uname" : formData.get('uname')})
             })
             .then(response => response.json())
             .then(data => {
