@@ -90,7 +90,23 @@ function deletePost(e){
         console.error('Error:', error);
     });
 }
+function uploadImage() {
+    const formData = new FormData();
+    const fileInput = document.getElementById('imageInput');
 
+    formData.append('image', fileInput.files[0]);
+
+    fetch('/upload', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        console.log('Bilddatei hochgeladen');
+    })
+    .catch(error => {
+        console.error('Fehler beim Hochladen der Bilddatei', error);
+    });
+}
 
 /*================*/
 //on page load

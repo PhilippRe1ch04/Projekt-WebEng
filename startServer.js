@@ -232,3 +232,17 @@ app.post('/removePost', (req, res) => {
     }
   });
 });
+// Route für den Dateiupload
+app.post('/upload', (req, res) => {
+  // Verarbeite den Dateiupload hier
+  const imageFile = req.files.image;
+
+  // Speichere die Datei auf dem Server
+  imageFile.mv('public/posts' + imageFile.name, (err) => {
+      if (err) {
+          return res.status(500).send(err);
+      }
+
+      res.send('Bilddatei erfolgreich hochgeladen');
+  });
+});
