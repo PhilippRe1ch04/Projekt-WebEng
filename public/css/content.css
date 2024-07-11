@@ -88,3 +88,31 @@
     box-shadow: 0 0 5px 0 rgba(0,0,0,0.2);
     height: auto;
 }
+button{
+    background-color: #ff8e32;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.2);
+    height: auto;
+}
+#comment-form button{
+    position: absolute;
+    width: 10vw;
+    height: 5vh;
+    bottom: 3.5vh;
+    right: 2.5vw;
+}
+#comment-form form{
+    height: 25vh;
+    width: 100%;
+}
+#comment-form textarea{
+    background-color: #ff8e32;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.2);
+    height: 100%;
+    resize: none;   
+    width: 92.5%;
+    position: inherit;
+}
