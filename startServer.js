@@ -49,6 +49,9 @@ app.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'admin.html'));
 });
 
+app.get('/addPost', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'addPost.html'));
+});
 
 // Start the server
 app.listen(PORT, () => {

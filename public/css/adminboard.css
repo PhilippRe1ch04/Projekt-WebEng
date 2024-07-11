@@ -1,15 +1,8 @@
-/* Reset default styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Add your custom styles for the adminboard here */
 body {
     font-family: 'Courier New', Courier, monospace;
     background-color: #f1f1f1;
 }
+
 h1 {
     text-align: center;
     margin: 20px 0;
@@ -72,3 +65,43 @@ table button {
     cursor: pointer;
 }
 
+/*addPost Div*/
+#addPostHolder{
+    height: 100vh;
+    width: 100vw;
+    background-color: #00000080;
+}
+
+#addPost{
+    position: absolute;
+    background-color: orange;
+    height: 80vh;
+    top: 10vh;
+    width: 80vw;
+    left: 10vw;
+    border-radius: 1vw;
+
+}
+
+button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    align-items: right;
+}
