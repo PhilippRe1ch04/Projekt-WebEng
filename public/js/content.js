@@ -120,7 +120,6 @@ function likePost(){
         body: JSON.stringify({"userId" : userId, "postId" : postId})
     })
     .then(() =>{
-        console.log("update");
         loadContent(postId);
     })
     .catch(error => {
@@ -142,7 +141,7 @@ function dislikePost(){
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({userId : sessionStorage.getItem("id")})
+        body: JSON.stringify({"userId" : sessionStorage.getItem("id")})
     })
     .then(response => response.json())
     .then(data => {

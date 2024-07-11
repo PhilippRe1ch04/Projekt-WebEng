@@ -152,7 +152,7 @@ app.post('/likePost', (req, res) => {
   const {userId, postId} = req.body;
   const query1 = `UPDATE user SET likedPosts = JSON_ARRAY_APPEND(likedPosts, '$', ?) WHERE id = ?;`;
   const query2 = `UPDATE posts SET likes = likes + 1 WHERE id = ?;`;
-  connection.query(query1, [postId, userId], (error) => {
+  connection.query(query1, [postId, userId], (error, results ) => {
     if (error) {
       console.error('Error executing query1:', error);
     } else {
@@ -185,6 +185,7 @@ app.post('/dislikePost', (req, res) => {
         }
       });
     }
+    res.json(results);
   });
 });
 
