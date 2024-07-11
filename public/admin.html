@@ -32,7 +32,7 @@
     <h1 style="margin-top: 5vh;">Admin Board</h1>
     <div class="UploadButton">
         <button id="UploadImageButton">
-            <img src="./src/upload.png" onclick="viewAddPost()" alt="upload Post" style="width: 2vw; height: 2vw;">
+            <img src="./src/upload.png" onclick="viewAddPost()" alt="upload Post">
         </button>
     </div>
     <br>
@@ -54,17 +54,23 @@
     <div id="addPostHolder">
         <div id="addPost">
             <button onclick="closeAddPost()">x</button>
+            <h1>Create a new Post</h1>
             <form action="upload.php" method="post" enctype="multipart/form-data">
-                <label for="image">Upload Image:</label>
-                <ln></ln>
-                <input type="file" id="image" name="image" accept="image/*" required><br><br>
-        
-                <label for="title">Title:</label>
-                <input type="text" id="title" name="title" required><br><br>
-        
-                <label for="author">Author:</label>
-                <input type="text" id="author" name="author" required><br><br>
-        
+                <table>
+                    <tr>
+                        <td><label for="image">Image:</label></td>
+                        <td><input type="file" id="image" name="image" accept="image/*" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="title">Title:</label></td>
+                        <td><input type="text" id="title" name="title" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="author">Author:</label></td>
+                        <td><input type="text" id="author" name="author" required></td>
+                    </tr>
+                </table>
+                
                 <label for="comment">Comment:</label><br>
                 <textarea id="comment" name="comment" rows="4" cols="50" optional></textarea><br><br>
         
