@@ -32,7 +32,7 @@
     <h1 style="margin-top: 5vh;">Admin Board</h1>
     <div class="UploadButton">
         <button id="UploadImageButton">
-            <img src="https://www.pngfind.com/pngs/b/66-661223_upload-icon-png.png" alt="add" style="width: 2vw; height: 2vw;">
+            <img src="./src/upload.png" onclick="viewAddPost()" alt="upload Post" style="width: 2vw; height: 2vw;">
         </button>
     </div>
     <br>
@@ -53,6 +53,7 @@
     </table>
     <div id="addPostHolder">
         <div id="addPost">
+            <button onclick="closeAddPost()">x</button>
             <form action="upload.php" method="post" enctype="multipart/form-data">
                 <label for="image">Upload Image:</label>
                 <ln></ln>

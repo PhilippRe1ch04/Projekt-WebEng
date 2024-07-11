@@ -108,6 +108,13 @@ function uploadImage() {
     });
 }
 
+function viewAddPost(){
+    document.getElementById("addPostHolder").style.visibility = "visible";
+}
+
+function closeAddPost(){
+    document.getElementById("addPostHolder").style.visibility = "hidden";
+}
 /*================*/
 //on page load
 viewPosts();
