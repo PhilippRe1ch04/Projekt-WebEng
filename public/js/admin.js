@@ -49,10 +49,10 @@ function viewPosts(){
                 <td>`+ post.views + `</td>
                 <td>` + post.likes + `</td>    
                 <td>
-                    <button>
+                    <button style="background-color: red">
                         <img width="25px" height="25px"  onclick="deletePost(this)" src="src/delete-button.png">
                     </button>
-                    <button>
+                    <button style="background-color: grey">
                         <img width="25px" height="25px" src="src/edit-button.png">
                     </button>
                 </td>`;

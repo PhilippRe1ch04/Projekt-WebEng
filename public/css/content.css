@@ -15,9 +15,9 @@
     left: 5vh;
     height: 80vh;
     width: 90vw;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 0 5px 0 rgba(0,0,0,0.2);
+    padding: 1vw;
+    border-radius: 1vw;
+    box-shadow: 0 0 1vw 0 #00000033;
     background-color: #3a3a3a;
     display: flex;
 }
@@ -35,29 +35,47 @@
 
 }
 
+#image-holder img{
+    max-height: 70%;
+    width: auto;
+}
+
+#image-holder div{
+    min-height: 30%;
+    margin: 0;
+}
+
 #title{
+    font-size: 1.5rem;
     float: left;
-    width: 50%;
-    height: 2vh;
+    width: 70%;
+    height: 10%;
 }
 
-#buttons{
+#image-holder button{
     float: right;
+    margin-right: 0;
 }
 
-#content div{
-    border-radius: 5px;
-    margin: 1%;
+#artist{
+    float: left;
+    width: 100%;
+    margin: 0;   
 }
 
-#content img{
-    max-height: 80%;
+#date{
+    float: left;
+    width: 100%;
+    font-size: 0.8rem;
+    margin: 0;
 }
 
 #comments{
     background-color: #ff8e32;
     box-shadow: 0 0 5px 0 rgba(0,0,0,0.2);
     width: 90%;
+    border-radius: 1vw;
+    padding: 1vw;
 }
 
 .buttons{
@@ -73,11 +91,17 @@
     top: 0;
     right: 0;
     z-index: 4;
+    border: 0;
+    background-color: white;
+    width: 2.5vw;
+    height: 2.5vw;
+    margin: 0;
 }
 .like-button{
-    background-color: #ff8e32;
-    margin: 5px, 5px, 5px, 5px;
+    background-color: #e9af80;
     border-radius: 5px;
+    border: 0;
+    padding: .3vw;
     box-shadow: 0 0 5px 0 rgba(0,0,0,0.2);
     height: auto;
 }

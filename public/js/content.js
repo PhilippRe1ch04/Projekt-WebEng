@@ -42,6 +42,7 @@ function loadContent(postId){
         document.getElementById('title').innerHTML = data[0].title;
         document.getElementById('artist').innerHTML = "@" + data[0].artist;
         document.getElementById('date').innerHTML = data[0].date;
+        document.getElementById('comment').innerHTML = data[0].comment;
         document.postId = postId;
     })
     .catch(error => {
@@ -70,6 +71,7 @@ function loadContent(postId){
     });
 }
 
+//function to increment like counter of comment
 function likeComment(comment){
     var likeSpans = document.getElementById(comment).getElementsByTagName('span');
     var currLikes = likeSpans[0].innerText;
@@ -103,6 +105,7 @@ function likePostHandler(){
 
 }
 
+//function to like a post
 function likePost(){
     var userId = sessionStorage.getItem("id");
     if(userId == null){
@@ -126,7 +129,7 @@ function likePost(){
         console.error('Error:', error);
     });
 }
-
+//function to dislike a Post
 function dislikePost(){
     var postId = document.postId;
     var userId = sessionStorage.getItem("id");
@@ -165,10 +168,6 @@ function dislikePost(){
     .catch(error => {
         console.error('Error:', error);
     });
-}
-
-function comment(){
-
 }
 
 window.closeContent = closeContent;

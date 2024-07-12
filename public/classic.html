@@ -32,46 +32,45 @@
 			</div>
 		</nav>
         <div id="contentPopUp">
-            <div id="content">
-                <button class="close-button" onclick='closeContent();'>X</button>
-                <div id="image-holder">
-                    <img src="src/placeholder.png" alt="image">
-                    <div>
-                        <p id="title">Title</p>
-                        <div id="buttons">
-                            <button class="buttons" id="likebutton" onclick="likePostHandler()">Like</button>
-                        </div>
-                    </div>
-                    <p id="artist">Artist: Artist</p>
-                    <p id="date">Date: Date</p>
-                </div>
-                <div id="comments">
-                    <div id="1" class="comment">
-                        <p>Comment 1</p>
-                        <button class="like-button" onclick='like(this.parentElement.id)'>Like</button>
-                        <span class="like-counter">0</span>
-                    </div>
-    
-                    <div id="2" class="comment">
-                        <p>Comment 2</p>
-                        <button class="like-button" onclick='like(this.parentElement.id)'>Like</button>
-                        <span class="like-counter">0</span>
-                    </div>
-    
-                    <div id="3" class="comment">
-                        <p>Comment 3</p>
-                        <button class="like-button" onclick='like(this.parentElement.id)'>Like</button>
-                        <span class="like-counter">0</span>
-                    </div>
-                </div>
-                <div id="comment-form">
-                    <form>
-                        <textarea id="comment-text" placeholder="Write a comment..."></textarea>
-                        <button type="button" onclick="comment()">Comment</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+			<div id="content">
+				<button class="close-button" onclick='closeContent();'>X</button>
+				<div id="image-holder">
+					<img src="src/placeholder.png" alt="image">
+					<div>
+						<p id="title">Title</p>
+						<button class="buttons" id="likebutton" onclick="likePostHandler()">Like</button>
+						<p id="artist">Artist: Artist</p>
+						<p id="date">Date: Date</p>
+					</div>
+				</div>
+				<div id="comments">
+					<div id="1" class="comment">
+						<p>Comment 1</p>
+						<button class="like-button" onclick='like(this.parentElement.id)'>Like</button>
+						<span class="like-counter">0</span>
+					</div>
+	
+					<div id="2" class="comment">
+						<p>Comment 2</p>
+						<button class="like-button" onclick='like(this.parentElement.id)'>Like</button>
+						<span class="like-counter">0</span>
+					</div>
+	
+					<div id="3" class="comment">
+						<p>Comment 3</p>
+						<button class="like-button" onclick='like(this.parentElement.id)'>Like</button>
+						<span class="like-counter">0</span>
+					</div>
+					<div id="comment-form">
+						<form>
+							<textarea id="comment-text" placeholder="Write a comment..."></textarea>
+							<br>
+							<button type="button" onclick="comment()">Send</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
         <div id="loginPopUp">
             <div id="loginPopUpContent">
                 <button class="close-button" onclick="closeLogin()">X</button>
