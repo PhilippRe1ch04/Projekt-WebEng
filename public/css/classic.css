@@ -16,13 +16,11 @@ body{
 }
 
 #classicContent div{
-  height: 23vw;
-  width: 23vw;
-  min-width: 300px;
-  min-height: 300px;
+  height: 22vw;
+  width: 22vw;
+  min-width: 100px;
+  min-height: 100px;
   display: flex;
-  background-color: #ffb432ca;
-  border-radius: 15px;
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -30,8 +28,10 @@ body{
 }
 
 #classicContent div img{
-  max-width: 90%;
-  max-height: 90%;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: .5vw;
 }
 
 #classicContent div:hover{

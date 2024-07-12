@@ -13,10 +13,12 @@ nav{
     top: 0;
     left: 0;
     background-color: #3a3a3a;
-    height: 3vh;
+    height: 3.5vh;
     width: 100vw;
     transition: .2s;
     z-index: 3;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 2vh;
 }
 
 nav div{
@@ -29,6 +31,17 @@ nav div{
     align-items: center;
 }
 
+nav button{
+    background-color: #dbe6e6;
+    border-radius: .5vw;
+    border: none;
+    padding: .5vw;
+    margin: 0.5vw;
+}
+
+nav button:hover{
+    background-color: #b6bebe;
+}
 
 nav #navTitle{
     text-align: center;
@@ -62,10 +75,6 @@ nav div a{
     padding: 2vw;
     padding-top: 0;
     border-radius: 0 0 3% 3%;
-}
-
-#expand button{
-    margin-bottom: 1vw;
 }
 
 #userDiv:hover{
