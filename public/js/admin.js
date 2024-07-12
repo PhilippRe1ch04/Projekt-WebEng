@@ -108,6 +108,7 @@ function uploadPost() {
     .then(response => {
         if(response.status == 200){
             closeAddPost();
+            location.reload();
         }
     })
     .catch(error => {

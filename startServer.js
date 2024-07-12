@@ -4,6 +4,7 @@ const fileUpload = require('express-fileupload');
 const path = require('path');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
+const fs = require('fs');
 
 //init express app
 const app = express();
@@ -226,25 +227,43 @@ app.post('/getUserID', (req, res) => {
 //removes a  post by id 
 app.post('/removePost', (req, res) => {
   const {id} = req.body;
-  const query = 'DELETE FROM posts WHERE id = ?;';
-  connection.query(query, [id], (error, results) => {
-    if (error) {
-      console.error('Error removing post from database:', error);
-      return res.status(500).json({ error: 'Internal Server Error' });
-    }
-    if (results.affectedRows > 0) {
-      res.json({ success: true });
-    } else {
-      res.json({ success: false });
-    }
-  });
+
+  const query = 'SELECT href FROM posts WHERE id = ?;';
+    connection.query(query, [id], (error, results) => {
+      if (error) {
+        console.error('Error removing post from database:', error);
+        return res.status(500).json({ error: 'Internal Server Error' });
+      }
+      
+      const filePath = path.join(__dirname, 'public', results[0].href);
+      fs.unlink(filePath, (err) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send(err);
+        }
+    
+        const query = 'DELETE FROM posts WHERE id = ?;';
+        connection.query(query, [id], (error, results) => {
+          if (error) {
+            console.error('Error removing post from database:', error);
+            return res.status(500).json({ error: 'Internal Server Error' });
+          }
+          if (results.affectedRows > 0) {
+            res.json({ success: true });
+          } else {
+            res.json({ success: false });
+          }
+        });
+      });
+
+    });
 });
 
 //uploads an Image to the server
 app.post('/uploadPostImage', (req, res) => {
   const image = req.files.image;
   const title = req.body.title;
-  const author = req.body.author;
+  const artist = req.body.artist;
   const comment = req.body.comment;
 
   let currentDate = new Date();
@@ -274,7 +293,7 @@ app.post('/uploadPostImage', (req, res) => {
     }
 
     const query = 'INSERT INTO posts (`title`, `artist`, `href`, `description`) VALUES (?, ?, ?, ?);';
-    connection.query(query, [title, author, dir, comment], (error, results) => {
+    connection.query(query, [title, artist, dir, comment], (error, results) => {
       if (error) {
         console.error('Error removing post from database:', error);
         return res.status(500).json({ error: 'Internal Server Error' });
