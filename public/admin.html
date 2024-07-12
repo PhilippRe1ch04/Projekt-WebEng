@@ -55,11 +55,11 @@
         <div id="addPost">
             <button onclick="closeAddPost()">x</button>
             <h1>Create a new Post</h1>
-            <form action="upload.php" method="post" enctype="multipart/form-data">
+            <form id="uploadPost" enctype="multipart/form-data">
                 <table>
                     <tr>
                         <td><label for="image">Image:</label></td>
-                        <td><input type="file" id="image" name="image" accept="image/*" required></td>
+                        <td><input type="file" id="imageInput" name="image" accept="image/*" required></td>
                     </tr>
                     <tr>
                         <td><label for="title">Title:</label></td>
@@ -70,9 +70,9 @@
                         <td><input type="text" id="author" name="author" required></td>
                     </tr>
                 </table>
-                
+
                 <label for="comment">Comment:</label><br>
-                <textarea id="comment" name="comment" rows="4" cols="50" optional></textarea><br><br>
+                <textarea id="comment" name="comment" rows="4" cols="50"></textarea><br><br>
         
                 <input type="submit" value="Upload">
             </form>

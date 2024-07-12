@@ -1,6 +1,12 @@
 var tbody = document.getElementById("tablebody");
 if(sessionStorage.getItem("uname") != "admin") window.location.href = "/";
 
+//add evenetListener on submit click of loginForm
+document.getElementById('uploadPost').addEventListener('submit', function(event) {
+    event.preventDefault();
+    uploadPost();
+});
+
 //function to get all Posts from db (all db posts entries)
 function getPosts() {
     return fetch('/getPosts', {
@@ -90,18 +96,19 @@ function deletePost(e){
         console.error('Error:', error);
     });
 }
-function uploadImage() {
-    const formData = new FormData();
-    const fileInput = document.getElementById('imageInput');
 
-    formData.append('image', fileInput.files[0]);
+//function to add new Post to database
+function uploadPost() {
+    const formData = new FormData(document.getElementById('uploadPost'));
 
-    fetch('/upload', {
+    fetch('/uploadPostImage', {
         method: 'POST',
         body: formData
     })
     .then(response => {
-        console.log('Bilddatei hochgeladen');
+        if(response.status == 200){
+            closeAddPost();
+        }
     })
     .catch(error => {
         console.error('Fehler beim Hochladen der Bilddatei', error);

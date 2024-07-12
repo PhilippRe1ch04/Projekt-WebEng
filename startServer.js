@@ -1,11 +1,13 @@
 //import dependencies
 const express = require('express');
+const fileUpload = require('express-fileupload');
 const path = require('path');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 
 //init express app
 const app = express();
+
 //listen on port 3000
 const PORT = process.env.PORT || 3000;
 
@@ -27,8 +29,10 @@ connection.connect((err) => {
   console.log('Connected to the MySQL database');
 });
 
-// Serve static files from the 'public' directory
+
+app.use(fileUpload());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Define routes
@@ -235,17 +239,51 @@ app.post('/removePost', (req, res) => {
     }
   });
 });
-// Route für den Dateiupload
-app.post('/upload', (req, res) => {
-  // Verarbeite den Dateiupload hier
-  const imageFile = req.files.image;
 
-  // Speichere die Datei auf dem Server
-  imageFile.mv('public/posts' + imageFile.name, (err) => {
-      if (err) {
-          return res.status(500).send(err);
+//uploads an Image to the server
+app.post('/uploadPostImage', (req, res) => {
+  const image = req.files.image;
+  const title = req.body.title;
+  const author = req.body.author;
+  const comment = req.body.comment;
+
+  let currentDate = new Date();
+  let year = currentDate.getFullYear();
+  let month = currentDate.getMonth() + 1; // starts with 0 (january)
+  let day = currentDate.getDate();
+  let hours = currentDate.getHours();
+  let minutes = currentDate.getMinutes();
+  let seconds = currentDate.getSeconds();
+
+  //two digits
+  if (month < 10) month = '0' + month;
+  if (day < 10) day = '0' + day;
+  if (hours < 10) hours = '0' + hours;
+  if (minutes < 10) minutes = '0' + minutes;
+  if (seconds < 10) seconds = '0' + seconds;
+
+  // Concatenate date and time components into a single string
+  let currentDateTimeString = '' + year + month + day + hours + minutes + seconds;
+
+  // Move the uploaded image to server directory
+  const dir = '/posts/' + currentDateTimeString + image.name;
+  image.mv(__dirname + "/public" +dir, (err) => {
+    if (err) {
+        console.error(err);
+        return res.status(500).send(err);
+    }
+
+    const query = 'INSERT INTO posts (`title`, `artist`, `href`, `description`) VALUES (?, ?, ?, ?);';
+    connection.query(query, [title, author, dir, comment], (error, results) => {
+      if (error) {
+        console.error('Error removing post from database:', error);
+        return res.status(500).json({ error: 'Internal Server Error' });
       }
-
-      res.send('Bilddatei erfolgreich hochgeladen');
+      if (results.affectedRows > 0) {
+        res.json({ success: true });
+      } else {
+        res.json({ success: false });
+      }
+    });
   });
 });
