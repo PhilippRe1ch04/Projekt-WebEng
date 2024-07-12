@@ -41,55 +41,55 @@
 		<div id="overlay">
 		</div>
 		<div id="loginPopUp">
-			<div id="loginPopUpContent">
-				<button class="close-button" onclick="closeLogin()">X</button>
-				<div class="first">
-					<div class="form">
-						<h1>Register</h1>
-						<form class="loginform" id="registerForm">
-							<label for="uemail"><b>Email</b></label>
-							<input type="email" placeholder="Enter Email" name="uemail" required><br>
+            <div id="loginPopUpContent">
+                <button class="close-button" onclick="closeLogin()">X</button>
+                <div class="first">
+                    <div class="form">
+                        <h1>Register</h1>
+                        <form class="loginform" id="registerForm">
+                            <label for="uemail"><b>Email</b></label>
+                            <input type="email" placeholder="Enter Email" name="uemail"id="uemail" required><br>
 
-							<label for="uname"><b>Username</b></label>
-							<input type="text" placeholder="Enter Username" name="uname" required><br>
+                            <label for="uname"><b>Username</b></label>
+                            <input type="text" placeholder="Enter Username" name="uname" id="uname" required><br>
 
-							<label for="psw"><b>Password</b></label>
-							<input type="current-password" placeholder="Enter Password" name="psw" required><br>
-							
-							<button type="submit">Register</button>						
-						</form>
-						<p id="registerResult"></p>
-					</div>
-					<div class="altText">
-						<h1>You don't have an account?</h1>
-						<br>
-						<a onclick="changeMethod()">register</a>
-					</div>
-				</div>
+                            <label for="psw"><b>Password</b></label>
+                            <input type="current-password" placeholder="Enter Password" name="psw" id="psw" required><br>
+                            
+                            <button type="submit">Register</button>						
+                        </form>
+                        <p id="registerResult"></p>
+                    </div>
+                    <div class="altText">
+                        <h1>You don't have an account?</h1>
+                        <br>
+                        <a onclick="changeMethod()">register</a>
+                    </div>
+                </div>
 
-				<div class="first active">
-					<div class="form">
-						<h1>Login</h1>
-						<form class="loginform" id="loginForm">
-							<label for="uname"><b>Username</b></label>
-							<input type="text" placeholder="Enter Username" name="uname" required><br>
+                <div class="first active">
+                    <div class="form">
+                        <h1>Login</h1>
+                        <form class="loginform" id="loginForm">
+                            <label for="uname"><b>Username</b></label>
+                            <input type="text" placeholder="Enter Username" name="uname" id="uname" required><br>
 
-							<label for="psw"><b>Password</b></label>
-							<input type="current-password" placeholder="Enter Password" name="psw" required><br>
+                            <label for="psw"><b>Password</b></label>
+                            <input type="current-password" placeholder="Enter Password" name="psw" id="psw" required><br>
 
-							<button type="submit">Login</button>
-						</form>
-						<p id="loginResult"></p>
-					</div>
+                            <button type="submit">Login</button>
+                        </form>
+                        <p id="loginResult"></p>
+                    </div>
 
-					<div class="altText">
-						<h1>You already have an account?</h1>
-						<br>
-						<a onclick="changeMethod()">login</a>
-					</div>
-				</div>
-			</div>	
-		</div>
+                    <div class="altText">
+                        <h1>You already have an account?</h1>
+                        <br>
+                        <a onclick="changeMethod()">login</a>
+                    </div>
+                </div>	
+            </div>
+        </div>
 		<div id="contentPopUp">
 			<div id="content">
 				<button class="close-button" onclick='closeContent();'>X</button>
