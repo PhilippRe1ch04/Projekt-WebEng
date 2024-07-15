@@ -47,14 +47,14 @@
                     <div class="form">
                         <h1>Register</h1>
                         <form class="loginform" id="registerForm">
-                            <label for="uemail"><b>Email</b></label>
-                            <input type="email" placeholder="Enter Email" name="uemail"id="uemail" required><br>
+                            <label for="uemailReg"><b>Email</b></label>
+                            <input type="email" placeholder="Enter Email" autocomplete="email" name="uemail" id="uemailReg" required><br>
 
-                            <label for="uname"><b>Username</b></label>
-                            <input type="text" placeholder="Enter Username" name="uname" id="uname" required><br>
+                            <label for="unameReg"><b>Username</b></label>
+                            <input type="text" placeholder="Enter Username" autocomplete="username" name="uname" id="unameReg" required><br>
 
-                            <label for="psw"><b>Password</b></label>
-                            <input type="current-password" placeholder="Enter Password" name="psw" id="psw" required><br>
+                            <label for="pswReg"><b>Password</b></label>
+                            <input type="password" autocomplete="current-password" placeholder="Enter Password" name="psw" id="pswReg" required><br>
                             
                             <button type="submit">Register</button>						
                         </form>
@@ -71,11 +71,11 @@
                     <div class="form">
                         <h1>Login</h1>
                         <form class="loginform" id="loginForm">
-                            <label for="uname"><b>Username</b></label>
-                            <input type="text" placeholder="Enter Username" name="uname" id="uname" required><br>
+                            <label for="unameLog"><b>Username</b></label>
+                            <input type="text" placeholder="Enter Username" autocomplete="username" name="uname" id="unameLog" required><br>
 
-                            <label for="psw"><b>Password</b></label>
-                            <input type="current-password" placeholder="Enter Password" name="psw" id="psw" required><br>
+                            <label for="pswLog"><b>Password</b></label>
+                            <input type="password" autocomplete="current-password" placeholder="Enter Password" name="psw" id="pswLog" required><br>
 
                             <button type="submit">Login</button>
                         </form>
@@ -103,22 +103,7 @@
 					</div>
 				</div>
 				<div id="comments">
-					<div id="1" class="comment">
-						<p>Comment 1</p>
-						<button class="like-button" onclick='like(this.parentElement.id)'>Like</button>
-						<span class="like-counter">0</span>
-					</div>
-	
-					<div id="2" class="comment">
-						<p>Comment 2</p>
-						<button class="like-button" onclick='like(this.parentElement.id)'>Like</button>
-						<span class="like-counter">0</span>
-					</div>
-	
-					<div id="3" class="comment">
-						<p>Comment 3</p>
-						<button class="like-button" onclick='like(this.parentElement.id)'>Like</button>
-						<span class="like-counter">0</span>
+					<div id="comment-holder">
 					</div>
 					<div id="comment-form">
 						<form>

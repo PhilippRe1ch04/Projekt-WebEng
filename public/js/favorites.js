@@ -52,8 +52,8 @@ if (userId != null){
     })
     .then(response => response.json())
     .then(data =>{
-        if(data[0].likedPosts.length != 0){
-            data[0].likedPosts.forEach(postId => {
+        if(JSON.parse(data[0].likedPosts).length != 0){
+            JSON.parse(data[0].likedPosts).forEach(postId => {
                 loadPost(postId);
             });;
         }else{

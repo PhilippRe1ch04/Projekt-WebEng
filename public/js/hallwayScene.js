@@ -34,6 +34,16 @@ export class HallwayScene{
 
     //function to generate a random ArtFrame with image from database
     loadRandArtFrame(pos){
+        //init artFrame
+        let artFrame = new ArtFrame();
+        this._scene.add(artFrame.get3dObj()); //add artFrame to scene
+        artFrame.get3dObj().position.set(pos.x, pos.y, pos.z);
+        artFrame.get3dObj().rotation.y = -Math.PI/40*pos.x;
+        artFrame.get3dObj().castShadow = true;
+        artFrame.get3dObj().receiveShadow = true;
+        //add artFrame to list of all artFrames in scene
+        this.artFrames.push(artFrame);
+
         //API call to get 
         fetch('/getRandomPost', {
             method: 'POST',
@@ -43,15 +53,9 @@ export class HallwayScene{
         })
         .then(response => response.json())
         .then(data => {
-            //init artFrame
-            let artFrame = new ArtFrame(data[0].href, data[0].id);
-            this._scene.add(artFrame.get3dObj()); //add artFrame to scene
-            artFrame.get3dObj().position.set(pos.x, pos.y, pos.z);
-            artFrame.get3dObj().rotation.y = -Math.PI/40*pos.x;
-            artFrame.get3dObj().castShadow = true;
-            artFrame.get3dObj().receiveShadow = true;
-            //add artFrame to list of all artFrames in scene
-            this.artFrames.push(artFrame);
+            //load Image from db
+            artFrame.loadPostImage(data[0].href, data[0].id);
+            
         })
         .catch(error => {
             console.error('Error:', error);

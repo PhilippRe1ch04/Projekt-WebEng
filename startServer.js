@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 3000;
 
 // MySQL connection configuration
 const dbConfig = {
-  host: 'localhost',
+  host: '127.0.0.1',
   user: 'root',
   password: 'LbAN8YWQnwGFdCzRnJy0',
   database: 'artgallery'
@@ -71,8 +71,8 @@ app.listen(PORT, () => {
 app.post('/login', (req, res) => {
   const { uname, psw } = req.body;
 
-  const query = 'SELECT * FROM user WHERE (username = ? OR email = ?) AND password = ?';
-  connection.query(query, [uname, uname, psw], (error, results) => {
+  const query = 'SELECT * FROM user WHERE username = ? AND password = ?';
+  connection.query(query, [uname, psw], (error, results) => {
     if (error) {
       console.error('Error checking value in database:', error);
       return res.status(500).json({ error: 'Internal Server Error' });
@@ -177,7 +177,7 @@ app.post('/likePost', (req, res) => {
 //remove post from liked list of user
 app.post('/dislikePost', (req, res) => {
   const {userId , index, postId} = req.body;
-  
+
   const query1 = `UPDATE user SET likedPosts = JSON_REMOVE(likedPosts, '$[?]') WHERE id = ?;`;
   const query2 = ` UPDATE posts SET likes = likes - 1 WHERE id = ?;`;
   connection.query(query1, [index, userId], (error, results) => {

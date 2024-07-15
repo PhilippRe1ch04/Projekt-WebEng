@@ -6,14 +6,17 @@ import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 export class ArtFrame{
 
     //constructor, store the db entry id, and the local image Path
-    constructor(path, db_id){
+    constructor(){
+        this.group = new THREE.Group();      
+    }
+
+    loadPostImage(path, db_id){
+        let planeHeight = 8; //default value for image size in 3d Scene
+        let planeWidth = 8; //default value for image size in 3d Scene
+
         this.path = path;
         this.db_id = db_id;
 
-        this.group = new THREE.Group();
-
-        let planeHeight = 8; //default value for image size in 3d Scene
-        let planeWidth = 8; //default value for image size in 3d Scene
 
         new THREE.TextureLoader().load(this.path, (artImage) =>{ //load texture from path and creat plane with texture on it
             
@@ -23,7 +26,6 @@ export class ArtFrame{
             this.group.add(plane);
         }); 
 
-        
         /*load 3d models and add it to group*/
 
         this.initModel("src/3d/pillar.glb", (pillar1) => {
@@ -45,7 +47,7 @@ export class ArtFrame{
             pillar2.position.set((planeWidth/2)+0.4, 0, 0);
             pillar2.scale.set(1.5, 1.3, 1.5);
             this.group.add(pillar2);
-        });    
+        });  
     }
 
     //function to load 3d models from file, returns 3d model data

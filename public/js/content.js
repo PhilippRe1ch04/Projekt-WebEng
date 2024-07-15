@@ -1,5 +1,5 @@
-//function to show content of Frame as PopUp
-//export --> so scene Objects can call this function
+var commetCount = 0; 
+
 function viewContent(postId){
     document.getElementById('contentPopUp').style.visibility = "visible";
     loadContent(postId);
@@ -12,6 +12,11 @@ function closeContent(){
         getActiveScene().addListeners();
     }catch(e){
         //classic view
+    }
+
+    //reload favorites page to update liked posts
+    if(location.href.endsWith("favorites")){
+        location.reload();
     }
 }
 
@@ -26,7 +31,7 @@ function loadContent(postId){
     })
     .then(response => response.json())
     .then(data => {
-        //Api call --> get update number of views
+        //Api call --> update number of views
         fetch('/updatePostViews', {
             method: 'POST',
             headers: {
@@ -42,7 +47,6 @@ function loadContent(postId){
         document.getElementById('title').innerHTML = data[0].title;
         document.getElementById('artist').innerHTML = "@" + data[0].artist;
         document.getElementById('date').innerHTML = data[0].date;
-        document.getElementById('comment').innerHTML = data[0].comment;
         document.postId = postId;
     })
     .catch(error => {
@@ -72,7 +76,7 @@ function loadContent(postId){
 }
 
 //function to increment like counter of comment
-function likeComment(comment){
+function like(comment){
     var likeSpans = document.getElementById(comment).getElementsByTagName('span');
     var currLikes = likeSpans[0].innerText;
     likeSpans[0].innerText = parseInt(currLikes) + 1;
@@ -89,7 +93,7 @@ function likePostHandler(){
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({userId : sessionStorage.getItem("id")})
+        body: JSON.stringify({"userId" : sessionStorage.getItem("id")})
     })
     .then(response => response.json())
     .then(data => {
@@ -148,7 +152,7 @@ function dislikePost(){
     })
     .then(response => response.json())
     .then(data => {
-        var index = data[0].likedPosts.indexOf(postId);
+        var index = JSON.parse(data[0].likedPosts).indexOf(postId);
 
         //API to remove post from liked list
         fetch('/dislikePost', {
@@ -168,6 +172,21 @@ function dislikePost(){
     .catch(error => {
         console.error('Error:', error);
     });
+}
+
+function comment(){
+    commetCount += 1;
+    var comment_holder = document.getElementById("comment-holder");
+    var new_comment = document.createElement("div");
+    new_comment.id = commetCount;
+    new_comment.className = "comment";
+    new_comment.innerHTML = `
+    <p>`+ document.getElementById("comment-text").value +`</p>
+    <button class="like-button" onclick='like(this.parentElement.id)'>Like</button>
+    <span class="like-counter">0</span>`;
+    document.getElementById("comment-text").value = "";
+    comment_holder.appendChild(new_comment);
+
 }
 
 window.closeContent = closeContent;
